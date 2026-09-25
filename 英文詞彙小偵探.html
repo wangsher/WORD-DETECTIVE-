@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#147d78" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#101c1f" media="(prefers-color-scheme: dark)" />
+    <title>英文詞彙小偵探｜單字複習</title>
+    <style>:root {
+  --ink: #173042;
+  --muted: #6d7e89;
+  --paper: #f6f8f6;
+  --card: #ffffff;
+  --line: #dbe5e4;
+  --teal: #147d78;
+  --teal-dark: #0e625f;
+  --teal-soft: #edf6f2;
+  --yellow: #f4c85b;
+  --coral: #eb806d;
+  --green: #237d57;
+  --green-soft: #edf8ef;
+  --red: #b95751;
+  --red-soft: #fff2f0;
+  --shadow: 0 18px 45px rgba(30, 64, 75, 0.08);
+  color-scheme: light;
+  font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+:root[data-theme="dark"] {
+  --ink: #eef3f2;
+  --muted: #9db0ac;
+  --paper: #101c1f;
+  --card: #16262a;
+  --line: #223236;
+  --teal: #35c3ab;
+  --teal-dark: #4fdac1;
+  --teal-soft: #163531;
+  --yellow: #f4c85b;
+  --coral: #eb9a89;
+  --green: #4fbf87;
+  --green-soft: #10281e;
+  --red: #e58e87;
+  --red-soft: #2a1717;
+  --shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ink: #eef3f2; --muted: #9db0ac; --paper: #101c1f; --card: #16262a; --line: #223236;
+    --teal: #35c3ab; --teal-dark: #4fdac1; --teal-soft: #163531; --coral: #eb9a89;
+    --green: #4fbf87; --green-soft: #10281e; --red: #e58e87; --red-soft: #2a1717;
+    --shadow: 0 18px 45px rgba(0, 0, 0, 0.35); color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { margin: 0; min-width: 320px; background: var(--paper); color: var(--ink); transition: background .2s ease, color .2s ease; padding-bottom: env(safe-area-inset-bottom, 0px); }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+a { color: inherit; }
+::selection { background: var(--yellow); color: #22261a; }
+
+.skip-link { position: absolute; left: 12px; top: -60px; z-index: 50; padding: 10px 16px; border-radius: 8px; background: var(--ink); color: var(--paper); transition: top .15s ease; }
+.skip-link:focus { top: 12px; }
+
+.site-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px clamp(18px, 5vw, 76px); padding-top: calc(16px + env(safe-area-inset-top, 0px)); background: var(--card); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 15; }
+.brand-lockup { display: flex; align-items: center; gap: 12px; }
+.brand-mark { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px 12px 12px 4px; color: #fff; background: var(--teal); font: 800 22px Georgia, serif; transform: rotate(-5deg); flex: none; }
+.brand-lockup h1 { margin: 1px 0 0; font-size: 18px; letter-spacing: .04em; }
+.eyebrow { margin: 0; color: var(--teal); font-size: 10px; font-weight: 800; letter-spacing: .16em; }
+.header-right { display: flex; align-items: center; gap: 14px; }
+.main-nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.nav-button { border: 0; border-bottom: 2px solid transparent; padding: 10px 13px; color: var(--muted); background: transparent; font-weight: 700; border-radius: 6px 6px 0 0; }
+.nav-button:hover, .nav-button.is-active { color: var(--ink); border-bottom-color: var(--teal); }
+.theme-toggle { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 50%; background: var(--paper); color: var(--ink); font-size: 16px; flex: none; }
+.theme-toggle:hover { border-color: var(--teal); }
+.streak-badge { display: none; align-items: center; gap: 6px; padding: 6px 11px; border-radius: 99px; background: var(--teal-soft); color: var(--teal-dark); font-size: 12px; font-weight: 800; white-space: nowrap; }
+.streak-badge.is-active { display: inline-flex; }
+.streak-badge .flame { font-size: 14px; }
+
+.page-shell { width: min(1160px, calc(100% - 36px)); margin: 0 auto; padding: 48px 0 70px; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(240px, .75fr); align-items: end; gap: 30px; margin-bottom: 30px; }
+.hero-copy h2, .page-heading h2 { max-width: 720px; margin: 10px 0 12px; font: 700 clamp(32px, 5vw, 58px)/1.06 Georgia, "Noto Serif TC", serif; letter-spacing: -.03em; }
+.hero-copy > p:last-child { max-width: 630px; margin: 0; color: var(--muted); font-size: 16px; line-height: 1.85; }
+.hero-note { display: grid; gap: 8px; padding: 22px 23px; color: #fff; border-radius: 3px 20px 20px 20px; background: var(--ink); box-shadow: var(--shadow); }
+.hero-note::before { content: ""; width: 25px; height: 4px; background: var(--yellow); }
+.note-kicker { color: var(--yellow); font-size: 11px; font-weight: 800; letter-spacing: .14em; }
+.hero-note strong { font-size: 18px; line-height: 1.45; }
+.hero-note span:last-child { color: #b9c9cc; font-size: 13px; }
+.card { border: 1px solid var(--line); border-radius: 18px; background: var(--card); box-shadow: var(--shadow); }
+.setup-card { padding: 25px; }
+.section-heading, .page-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; }
+.section-heading h3 { margin: 6px 0 0; font: 700 26px Georgia, "Noto Serif TC", serif; }
+.available-pill { padding: 8px 12px; border-radius: 99px; background: var(--teal-soft); color: var(--teal-dark); font-size: 12px; font-weight: 800; white-space: nowrap; }
+.control-grid { display: grid; grid-template-columns: 1fr 1fr 130px auto; align-items: end; gap: 13px; margin-top: 24px; }
+.field { display: grid; gap: 7px; color: var(--muted); font-size: 12px; font-weight: 800; }
+.field input, .field select, .field textarea, .library-toolbar select { width: 100%; min-height: 44px; border: 1px solid var(--line); border-radius: 10px; padding: 0 12px; color: var(--ink); background: var(--paper); outline: none; }
+.field textarea { padding-top: 11px; resize: vertical; }
+.field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible, .search-field:focus-within { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(20, 125, 120, .18); }
+.button { display: inline-flex; justify-content: center; align-items: center; gap: 8px; min-height: 44px; padding: 0 17px; border: 1px solid transparent; border-radius: 10px; font-weight: 800; transition: transform .15s ease, box-shadow .15s ease, background .15s ease; }
+.button:hover { transform: translateY(-1px); }
+.button:focus-visible, .nav-button:focus-visible, .theme-toggle:focus-visible, .option-button:focus-visible, .icon-button:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+.button-primary { color: #fff; background: var(--teal); box-shadow: 0 8px 18px rgba(20, 125, 120, .18); }
+.button-primary:hover { background: var(--teal-dark); }
+.button-secondary { color: var(--ink); background: var(--card); border-color: var(--line); }
+.button-accent { color: #22261a; background: var(--yellow); }
+.button-small { min-height: 36px; padding: 0 13px; font-size: 12px; }
+.start-button { min-width: 155px; }
+.start-button:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+
+.quiz-card { max-width: 850px; margin: 28px auto 0; padding: clamp(22px, 5vw, 45px); animation: rise .25s ease; }
+.quiz-topline { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 13px; font-weight: 800; }
+.score-counter { color: var(--teal); }
+.progress-track { height: 5px; margin: 13px 0 34px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--yellow); transition: width .3s ease; }
+.prompt-block { min-height: 180px; display: grid; align-content: center; gap: 13px; padding: 27px; border-radius: 15px; background: var(--teal-soft); }
+.prompt-label-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.prompt-label { margin: 0; color: var(--teal); font-size: 12px; font-weight: 800; letter-spacing: .08em; }
+.prompt-text { color: var(--ink); font: 700 clamp(24px, 3.7vw, 36px)/1.35 Georgia, "Noto Serif TC", serif; }
+.prompt-text .blank-word { color: var(--teal); text-decoration: underline; text-decoration-color: var(--yellow); text-decoration-thickness: 4px; text-underline-offset: 7px; }
+.prompt-text .single-word { letter-spacing: .01em; }
+.icon-button { display: inline-grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%; background: var(--card); color: var(--teal-dark); flex: none; }
+.icon-button:hover { border-color: var(--teal); }
+.icon-button.is-speaking { animation: pulse-ring 1s ease-in-out infinite; }
+.options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 22px; }
+.option-button { min-height: 62px; padding: 12px 15px; border: 1px solid var(--line); border-radius: 12px; color: var(--ink); background: var(--card); text-align: left; font-weight: 700; line-height: 1.4; transition: transform .12s ease, border-color .12s ease, background .12s ease; }
+.option-button:hover:not(:disabled) { border-color: var(--teal); background: var(--teal-soft); transform: translateY(-1px); }
+.option-button kbd { display: inline-grid; place-items: center; min-width: 20px; height: 20px; margin-right: 8px; border-radius: 5px; background: var(--paper); border: 1px solid var(--line); color: var(--muted); font-size: 11px; font-weight: 800; }
+.option-button.is-correct { border-color: var(--green); background: var(--green-soft); color: var(--green); animation: pop .25s ease; }
+.option-button.is-wrong { border-color: var(--red); background: var(--red-soft); color: var(--red); animation: shake .3s ease; }
+.option-button:disabled { cursor: default; }
+.feedback-box { margin-top: 18px; padding: 16px 18px; border-radius: 12px; background: var(--teal-soft); animation: rise .2s ease; }
+.feedback-box.is-correct { background: var(--green-soft); }
+.feedback-box.is-wrong { background: var(--red-soft); }
+.feedback-heading { display: flex; gap: 8px; align-items: center; }
+.feedback-heading span { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; color: #fff; background: var(--green); font-size: 13px; flex: none; }
+.feedback-box.is-wrong .feedback-heading span { background: var(--red); }
+.feedback-box p { margin: 8px 0 0 30px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.quiz-actions { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 53px; margin-top: 8px; }
+.clue-text { color: var(--muted); font-size: 13px; line-height: 1.5; }
+.clue-text::before { content: "線索  "; color: var(--teal); font-weight: 800; }
+.keyboard-hint { margin: 0; color: var(--muted); opacity: .75; font-size: 11px; }
+.result-card { max-width: 700px; margin: 28px auto 0; padding: 43px; text-align: center; animation: rise .3s ease; }
+.result-badge { display: inline-grid; place-items: center; min-width: 75px; height: 29px; border-radius: 99px; color: var(--teal-dark); background: var(--teal-soft); font-size: 12px; font-weight: 800; }
+.result-card h3 { margin: 12px 0 10px; font: 700 34px Georgia, "Noto Serif TC", serif; }
+.result-card p:not(.eyebrow) { color: var(--muted); line-height: 1.7; }
+.result-streak { margin-top: 6px; color: var(--coral); font-size: 13px; font-weight: 700; }
+.result-actions { display: flex; justify-content: center; gap: 10px; margin-top: 26px; flex-wrap: wrap; }
+.confetti-layer { position: fixed; inset: 0; pointer-events: none; z-index: 40; overflow: hidden; }
+.confetti-piece { position: absolute; top: -12px; width: 8px; height: 14px; border-radius: 2px; animation: confetti-fall linear forwards; }
+
+.tab-panel { display: none; }
+.tab-panel.is-visible { display: block; animation: rise .2s ease; }
+.page-heading { margin-bottom: 28px; }
+.page-heading h2 { margin-bottom: 0; font-size: clamp(35px, 5vw, 56px); }
+.page-heading > p { margin: 0; color: var(--muted); font-size: 13px; }
+.library-toolbar { display: flex; gap: 12px; padding: 15px; margin-bottom: 15px; }
+.search-field { display: flex; align-items: center; flex: 1; min-height: 44px; border: 1px solid var(--line); border-radius: 10px; padding: 0 12px; color: var(--teal); background: var(--paper); }
+.search-field span { margin-right: 8px; font-size: 24px; line-height: 1; }
+.search-field input { width: 100%; border: 0; outline: 0; color: var(--ink); background: transparent; }
+.library-toolbar select { width: 170px; }
+.word-table { overflow: hidden; }
+.table-head, .word-row { display: grid; grid-template-columns: 1.2fr 1.4fr .8fr .8fr .4fr; gap: 15px; align-items: center; padding: 14px 20px; }
+.table-head { color: var(--muted); background: var(--teal-soft); font-size: 11px; font-weight: 800; letter-spacing: .1em; }
+.word-row { border-top: 1px solid var(--line); font-size: 14px; }
+.word-row strong { color: var(--ink); }
+.word-row small { color: var(--muted); }
+.unit-tag, .status-tag { display: inline-flex; width: max-content; padding: 5px 8px; border-radius: 99px; font-size: 11px; font-weight: 800; }
+.unit-tag { color: var(--teal-dark); background: var(--teal-soft); }
+.status-tag { color: var(--muted); background: var(--paper); }
+.status-tag.needs-review { color: var(--red); background: var(--red-soft); }
+.empty-state { padding: 45px 20px; text-align: center; color: var(--muted); }
+.review-overview { display: flex; align-items: center; gap: 18px; padding: 20px 24px; margin-bottom: 18px; }
+.review-number { display: grid; place-items: center; width: 60px; height: 60px; border-radius: 15px; color: #fff; background: var(--coral); font: 700 28px Georgia, serif; flex: none; }
+.review-overview strong { font-size: 16px; }
+.review-overview p { margin: 5px 0 0; color: var(--muted); font-size: 13px; }
+.review-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+.review-item { display: grid; gap: 8px; padding: 20px; border: 1px solid var(--line); border-radius: 15px; background: var(--card); }
+.review-item-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.review-item strong { font-size: 18px; }
+.review-item span { color: var(--muted); font-size: 13px; }
+.review-item .review-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 5px; color: var(--red); font-size: 11px; font-weight: 800; }
+.modal-backdrop { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 20px; background: rgba(10, 20, 25, .55); }
+.modal-card { position: relative; width: min(510px, 100%); padding: 32px; border-radius: 20px; background: var(--card); box-shadow: 0 25px 70px rgba(0,0,0,.35); animation: rise .18s ease; }
+.modal-card h2 { margin: 8px 0; font: 700 32px Georgia, "Noto Serif TC", serif; }
+.modal-intro { margin: 0 0 23px; color: var(--muted); font-size: 13px; line-height: 1.65; }
+.modal-card form { display: grid; gap: 15px; }
+.modal-close { position: absolute; top: 13px; right: 14px; width: 34px; height: 34px; border: 0; border-radius: 50%; color: var(--muted); background: var(--paper); font-size: 23px; line-height: 1; }
+.form-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 5px; }
+.site-footer { padding: 28px; padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px)); color: var(--muted); text-align: center; font-size: 12px; }
+.toast { position: fixed; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 30; max-width: min(360px, calc(100% - 40px)); padding: 13px 16px; border-radius: 10px; color: #fff; background: var(--ink); box-shadow: var(--shadow); font-size: 13px; animation: rise .2s ease; }
+.is-hidden { display: none !important; }
+
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pop { 0% { transform: scale(.97); } 60% { transform: scale(1.015); } 100% { transform: scale(1); } }
+@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+@keyframes pulse-ring { 0%,100% { box-shadow: 0 0 0 0 rgba(20,125,120,.35); } 50% { box-shadow: 0 0 0 6px rgba(20,125,120,0); } }
+@keyframes confetti-fall { to { transform: translateY(105vh) rotate(320deg); opacity: .9; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+}
+
+@media (max-width: 820px) {
+  .site-header { flex-wrap: wrap; }
+  .main-nav { width: 100%; justify-content: flex-start; }
+  .hero-grid { grid-template-columns: 1fr; }
+  .control-grid { grid-template-columns: 1fr 1fr; }
+  .start-button { width: 100%; }
+  .review-list { grid-template-columns: 1fr 1fr; }
+  .table-head, .word-row { grid-template-columns: 1.2fr 1.4fr .8fr .8fr; }
+  .table-head span:last-child, .word-row .icon-button { display: none; }
+}
+@media (max-width: 560px) {
+  .page-shell { width: min(100% - 24px, 1160px); padding-top: 32px; }
+  .header-right { gap: 8px; }
+  .main-nav { gap: 1px; }
+  .nav-button { padding: 8px 9px; font-size: 12px; }
+  .button-small { margin-left: auto; }
+  .setup-card, .quiz-card, .result-card { padding: 20px; }
+  .control-grid, .options-grid { grid-template-columns: 1fr; }
+  .prompt-block { min-height: 160px; padding: 21px; }
+  .quiz-actions { align-items: flex-start; flex-direction: column; }
+  .quiz-actions .button { width: 100%; }
+  .library-toolbar { flex-direction: column; }
+  .library-toolbar select { width: 100%; }
+  .table-head { display: none; }
+  .word-row { grid-template-columns: 1fr auto; gap: 8px 15px; padding: 16px; }
+  .word-row > :nth-child(3), .word-row > :nth-child(4) { font-size: 11px; }
+  .review-list { grid-template-columns: 1fr; }
+  .result-actions { flex-direction: column; }
+  .result-actions .button { width: 100%; }
+  .modal-card { padding: 27px 20px; }
+}
+</style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳到主要內容</a>
+    <header class="site-header">
+      <div class="brand-lockup">
+        <div class="brand-mark" aria-hidden="true">W</div>
+        <div>
+          <p class="eyebrow">WORD DETECTIVE</p>
+          <h1>英文詞彙小偵探</h1>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="streak-badge" id="streak-badge"><span class="flame" aria-hidden="true">🔥</span>連續 <span class="streak-count">0</span> 題</span>
+        <nav class="main-nav" aria-label="主要功能">
+          <button class="nav-button is-active" data-tab="practice">開始練習</button>
+          <button class="nav-button" data-tab="library">單字庫</button>
+          <button class="nav-button" data-tab="review">錯題複習</button>
+          <button class="button button-accent button-small" id="open-add">＋ 新增線索</button>
+        </nav>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切換深色模式">🌙</button>
+      </div>
+    </header>
+
+    <main class="page-shell" id="main-content">
+      <section class="tab-panel is-visible" id="practice-panel" data-panel="practice">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">READ · THINK · REMEMBER</p>
+            <h2>用線索找出最適合的中文意思。</h2>
+            <p>從課本單字庫挑選範圍，讓系統隨機出題、立即批改，並把需要再看的單字留下來。也可以按下發音鍵，聽聽單字怎麼唸。</p>
+          </div>
+          <div class="hero-note">
+            <span class="note-kicker">學習提示</span>
+            <strong>先讀完整句子，再看選項。</strong>
+            <span>把單字放回語境，記得更牢。</span>
+          </div>
+        </div>
+
+        <div class="setup-card card">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">PRACTICE SETUP</p>
+              <h3>設定今天的練習</h3>
+            </div>
+            <span class="available-pill" id="available-count">可出題 0 題</span>
+          </div>
+          <div class="control-grid">
+            <label class="field">
+              <span>範圍</span>
+              <select id="group-select">
+                <option value="all">全部課本單字</option>
+                <option value="g7a">七上（G7A）</option>
+                <option value="g7b">七下（G7B）</option>
+                <option value="u1">新增題庫 Unit 1</option>
+                <option value="u2">新增題庫 Unit 2</option>
+                <option value="custom">我新增的線索</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>題型</span>
+              <select id="mode-select">
+                <option value="context">語境線索</option>
+                <option value="word">看英文選中文</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>題數</span>
+              <select id="count-select">
+                <option value="5">5 題</option>
+                <option value="10" selected>10 題</option>
+                <option value="20">20 題</option>
+                <option value="30">30 題</option>
+              </select>
+            </label>
+            <button class="button button-primary start-button" id="start-practice">開始出題 <span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+
+        <div class="quiz-card card is-hidden" id="quiz-card">
+          <div class="quiz-topline">
+            <span class="question-counter" id="quiz-step">第 1 / 10 題</span>
+            <span class="score-counter" id="quiz-score">答對 0 題</span>
+          </div>
+          <div class="progress-track"><span id="quiz-progress"></span></div>
+          <div class="prompt-block">
+            <div class="prompt-label-row">
+              <p class="prompt-label" id="prompt-label">請找出句中單字的意思</p>
+              <button class="icon-button" id="speak-question" type="button" data-text="" aria-label="播放發音">🔊</button>
+            </div>
+            <div class="prompt-text" id="quiz-prompt"></div>
+          </div>
+          <div class="options-grid" id="quiz-options" role="group" aria-label="答案選項"></div>
+          <div class="feedback-box is-hidden" id="feedback-box" aria-live="polite">
+            <div class="feedback-heading"><span id="feedback-icon">✓</span><strong id="feedback-title"></strong></div>
+            <p id="feedback-text"></p>
+          </div>
+          <div class="quiz-actions">
+            <span class="clue-text" id="clue-text"></span>
+            <button class="button button-primary is-hidden" id="next-question">下一題 <span aria-hidden="true">→</span></button>
+          </div>
+          <p class="keyboard-hint">也可以按鍵盤 1–4 選答案，Enter 進下一題。</p>
+        </div>
+
+        <div class="result-card card is-hidden" id="result-card">
+          <div class="result-badge" id="result-badge">完成</div>
+          <p class="eyebrow">PRACTICE COMPLETE</p>
+          <h3 id="result-title">這回合完成了！</h3>
+          <p id="result-summary"></p>
+          <p class="result-streak" id="result-streak"></p>
+          <div class="result-actions">
+            <button class="button button-primary" id="retry-practice">再練一次</button>
+            <button class="button button-secondary" id="result-review">查看錯題</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="library-panel" data-panel="library">
+        <div class="page-heading">
+          <div><p class="eyebrow">WORD LIBRARY</p><h2>單字庫</h2></div>
+          <p id="library-summary"></p>
+        </div>
+        <div class="library-toolbar card">
+          <label class="search-field"><span aria-hidden="true">⌕</span><input id="library-search" type="search" placeholder="搜尋英文或中文意思" /></label>
+          <select id="library-filter" aria-label="篩選單字範圍">
+            <option value="all">全部</option><option value="g7a">七上 G7A</option><option value="g7b">七下 G7B</option><option value="u1">Unit 1</option><option value="u2">Unit 2</option><option value="custom">自訂單字</option>
+          </select>
+        </div>
+        <div class="word-table card"><div class="table-head"><span>英文</span><span>中文意思</span><span>範圍</span><span>狀態</span><span>發音</span></div><div id="word-list"></div></div>
+      </section>
+
+      <section class="tab-panel" id="review-panel" data-panel="review">
+        <div class="page-heading">
+          <div><p class="eyebrow">WRONG ANSWERS</p><h2>錯題複習</h2></div>
+          <button class="button button-primary" id="review-start">用錯題出題</button>
+        </div>
+        <div class="review-overview card"><div class="review-number" id="wrong-count">0</div><div><strong>需要再看一次的單字</strong><p>答錯後會自動放在這裡；答對一次即可移除。</p></div></div>
+        <div class="review-list" id="review-list"></div>
+      </section>
+    </main>
+
+    <div class="modal-backdrop is-hidden" id="add-modal" aria-hidden="true">
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="add-title">
+        <button class="modal-close" id="close-add" aria-label="關閉">×</button>
+        <p class="eyebrow">YOUR OWN CLUE</p><h2 id="add-title">新增英文單字</h2>
+        <p class="modal-intro">輸入英文、中文意思與一個小線索，之後可以在「我新增的線索」中練習。</p>
+        <form id="add-form">
+          <label class="field"><span>英文單字／片語</span><input name="word" required autocomplete="off" placeholder="例如：curious" /></label>
+          <label class="field"><span>中文意思</span><input name="meaning" required placeholder="例如：好奇的" /></label>
+          <label class="field"><span>例句（可選）</span><textarea name="stem" rows="2" placeholder="例如：I am curious about the new story."></textarea></label>
+          <label class="field"><span>提示（可選）</span><input name="clue" placeholder="例如：想知道更多事情的感覺" /></label>
+          <div class="form-actions"><button type="button" class="button button-secondary" id="cancel-add">取消</button><button type="submit" class="button button-primary">儲存單字</button></div>
+        </form>
+      </div>
+    </div>
+    <div class="toast is-hidden" id="toast" role="status" aria-live="polite"></div>
+
+    <footer class="site-footer">英文詞彙小偵探 · 課本單字複習工具 · 進度與自訂單字只存在你的瀏覽器裡</footer>
+    <script>// Generated from the classroom vocabulary bank.
+window.VOCABULARY = [{"id":"g7a-1-1","word":"handsome","meaning":"英俊的","group":"g7a","unit":1,"source":1,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-2","word":"new","meaning":"新的","group":"g7a","unit":1,"source":2,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-3","word":"classmate","meaning":"同學","group":"g7a","unit":1,"source":3,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-4","word":"young","meaning":"年輕的","group":"g7a","unit":1,"source":4,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-5","word":"woman","meaning":"女人","group":"g7a","unit":1,"source":5,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-6","word":"very","meaning":"非常","group":"g7a","unit":1,"source":6,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-7","word":"beautiful","meaning":"美麗的","group":"g7a","unit":1,"source":7,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-8","word":"too","meaning":"也","group":"g7a","unit":1,"source":8,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-9","word":"Nice to meet you.","meaning":"很高興認識你。","group":"g7a","unit":1,"source":9,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-10","word":"cousin","meaning":"堂表兄弟姐妹","group":"g7a","unit":1,"source":10,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-11","word":"really","meaning":"真地","group":"g7a","unit":1,"source":11,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-12","word":"year(s) old","meaning":"⋯歲","group":"g7a","unit":1,"source":12,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-13","word":"I see.","meaning":"我知道了。","group":"g7a","unit":1,"source":13,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-14","word":"singer","meaning":"歌手","group":"g7a","unit":1,"source":14,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-15","word":"office worker","meaning":"上班族","group":"g7a","unit":1,"source":15,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-16","word":"housewife","meaning":"家庭主婦","group":"g7a","unit":1,"source":16,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-17","word":"police officer","meaning":"警察","group":"g7a","unit":1,"source":17,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-18","word":"writer","meaning":"作家","group":"g7a","unit":1,"source":18,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-19","word":"uncle","meaning":"叔伯；舅舅","group":"g7a","unit":1,"source":19,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-20","word":"aunt","meaning":"阿姨；姑姑","group":"g7a","unit":1,"source":20,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-21","word":"wife","meaning":"妻子","group":"g7a","unit":1,"source":21,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-22","word":"daughter","meaning":"女兒","group":"g7a","unit":1,"source":22,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-23","word":"husband","meaning":"丈夫","group":"g7a","unit":1,"source":23,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-24","word":"son","meaning":"兒子","group":"g7a","unit":1,"source":24,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-25","word":"dear","meaning":"親愛的","group":"g7a","unit":1,"source":25,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-26","word":"family","meaning":"家庭；家人","group":"g7a","unit":1,"source":26,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-27","word":"elementary school","meaning":"國小","group":"g7a","unit":1,"source":27,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-28","word":"junior high school","meaning":"國中","group":"g7a","unit":1,"source":28,"stem":"","clue":"","distractors":[]},{"id":"g7a-1-29","word":"baby","meaning":"嬰兒；年幼的","group":"g7a","unit":1,"source":29,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-1","word":"house","meaning":"房子","group":"g7a","unit":2,"source":1,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-2","word":"parents","meaning":"父母親","group":"g7a","unit":2,"source":2,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-3","word":"living room","meaning":"客廳","group":"g7a","unit":2,"source":3,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-4","word":"wall","meaning":"牆壁","group":"g7a","unit":2,"source":4,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-5","word":"purple","meaning":"紫色（的）","group":"g7a","unit":2,"source":5,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-6","word":"favorite","meaning":"最喜愛（的）","group":"g7a","unit":2,"source":6,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-7","word":"color","meaning":"顏色","group":"g7a","unit":2,"source":7,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-8","word":"kitchen","meaning":"廚房","group":"g7a","unit":2,"source":8,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-9","word":"dining room","meaning":"飯廳","group":"g7a","unit":2,"source":9,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-10","word":"but","meaning":"但是","group":"g7a","unit":2,"source":10,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-11","word":"gray","meaning":"灰色（的）","group":"g7a","unit":2,"source":11,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-12","word":"brown","meaning":"棕色（的）","group":"g7a","unit":2,"source":12,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-13","word":"cookie","meaning":"餅乾","group":"g7a","unit":2,"source":13,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-14","word":"mice","meaning":"老鼠（複數）","group":"g7a","unit":2,"source":14,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-15","word":"maybe","meaning":"可能","group":"g7a","unit":2,"source":15,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-16","word":"sofa","meaning":"沙發","group":"g7a","unit":2,"source":16,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-17","word":"hungry","meaning":"餓的","group":"g7a","unit":2,"source":17,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-18","word":"notebook","meaning":"筆記本","group":"g7a","unit":2,"source":18,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-19","word":"marker","meaning":"記號筆；彩色筆","group":"g7a","unit":2,"source":19,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-20","word":"brush","meaning":"毛筆；筆刷","group":"g7a","unit":2,"source":20,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-21","word":"gift","meaning":"禮物","group":"g7a","unit":2,"source":21,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-22","word":"pencil case","meaning":"鉛筆盒","group":"g7a","unit":2,"source":22,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-23","word":"bathroom","meaning":"浴室；廁所","group":"g7a","unit":2,"source":23,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-24","word":"table","meaning":"桌子","group":"g7a","unit":2,"source":24,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-25","word":"bedroom","meaning":"臥室","group":"g7a","unit":2,"source":25,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-26","word":"near","meaning":"在⋯附近","group":"g7a","unit":2,"source":26,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-27","word":"between","meaning":"在⋯之間","group":"g7a","unit":2,"source":27,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-28","word":"behind","meaning":"在⋯後面","group":"g7a","unit":2,"source":28,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-29","word":"in front of","meaning":"在⋯前面","group":"g7a","unit":2,"source":29,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-30","word":"special","meaning":"特別的","group":"g7a","unit":2,"source":30,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-31","word":"inside","meaning":"在⋯裡面","group":"g7a","unit":2,"source":31,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-32","word":"right","meaning":"就","group":"g7a","unit":2,"source":32,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-33","word":"each other","meaning":"彼此；互相","group":"g7a","unit":2,"source":33,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-34","word":"above","meaning":"在⋯上方；在上方","group":"g7a","unit":2,"source":34,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-35","word":"enough","meaning":"足夠（的）","group":"g7a","unit":2,"source":35,"stem":"","clue":"","distractors":[]},{"id":"g7a-2-36","word":"person","meaning":"人","group":"g7a","unit":2,"source":36,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-1","word":"guy","meaning":"人；傢伙","group":"g7a","unit":3,"source":1,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-2","word":"magic","meaning":"神奇的；魔法","group":"g7a","unit":3,"source":2,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-3","word":"with","meaning":"用；和","group":"g7a","unit":3,"source":3,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-4","word":"can","meaning":"可以；會","group":"g7a","unit":3,"source":4,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-5","word":"many","meaning":"許多（的）","group":"g7a","unit":3,"source":5,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-6","word":"place","meaning":"地方","group":"g7a","unit":3,"source":6,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-7","word":"use","meaning":"使用","group":"g7a","unit":3,"source":7,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-8","word":"sure","meaning":"當然；確定的","group":"g7a","unit":3,"source":8,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-9","word":"let's...","meaning":"讓我們一起⋯","group":"g7a","unit":3,"source":9,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-10","word":"careful","meaning":"小心的","group":"g7a","unit":3,"source":10,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-11","word":"museum","meaning":"博物館","group":"g7a","unit":3,"source":11,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-12","word":"Hurry!","meaning":"快點！","group":"g7a","unit":3,"source":12,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-13","word":"please","meaning":"請；拜託","group":"g7a","unit":3,"source":13,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-14","word":"wait","meaning":"等待","group":"g7a","unit":3,"source":14,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-15","word":"man","meaning":"男人","group":"g7a","unit":3,"source":15,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-16","word":"now","meaning":"現在","group":"g7a","unit":3,"source":16,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-17","word":"or","meaning":"或者","group":"g7a","unit":3,"source":17,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-18","word":"time","meaning":"次；時間","group":"g7a","unit":3,"source":18,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-19","word":"wake up","meaning":"醒來；叫醒⋯","group":"g7a","unit":3,"source":19,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-20","word":"class","meaning":"課；班級","group":"g7a","unit":3,"source":20,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-21","word":"Oh my!","meaning":"天哪！","group":"g7a","unit":3,"source":21,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-22","word":"see","meaning":"看見","group":"g7a","unit":3,"source":22,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-23","word":"quiet","meaning":"安靜的","group":"g7a","unit":3,"source":23,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-24","word":"turn off","meaning":"關掉","group":"g7a","unit":3,"source":24,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-25","word":"sign","meaning":"標誌","group":"g7a","unit":3,"source":25,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-26","word":"talk","meaning":"說話","group":"g7a","unit":3,"source":26,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-27","word":"fight","meaning":"吵架；打架","group":"g7a","unit":3,"source":27,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-28","group":"g7a","unit":3,"source":28,"word":"turn","meaning":"（依次輪到的）機會","stem":"","clue":"","distractors":[]},{"id":"g7a-3-29","word":"follow","meaning":"遵守；跟隨","group":"g7a","unit":3,"source":29,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-30","word":"rule","meaning":"規則","group":"g7a","unit":3,"source":30,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-31","word":"safe","meaning":"安全的","group":"g7a","unit":3,"source":31,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-32","word":"wash","meaning":"清洗","group":"g7a","unit":3,"source":32,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-33","word":"hand","meaning":"手","group":"g7a","unit":3,"source":33,"stem":"","clue":"","distractors":[]},{"id":"g7a-3-34","word":"after class","meaning":"下課後","group":"g7a","unit":3,"source":34,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-1","word":"music video","meaning":"音樂影片","group":"g7a","unit":4,"source":1,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-2","word":"band","meaning":"樂團","group":"g7a","unit":4,"source":2,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-3","word":"take a look","meaning":"看一看","group":"g7a","unit":4,"source":3,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-4","word":"all","meaning":"所有的","group":"g7a","unit":4,"source":4,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-5","word":"cute","meaning":"可愛的","group":"g7a","unit":4,"source":5,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-6","word":"great","meaning":"棒的","group":"g7a","unit":4,"source":6,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-7","word":"free","meaning":"有空的","group":"g7a","unit":4,"source":7,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-8","word":"weekend","meaning":"週末","group":"g7a","unit":4,"source":8,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-9","word":"Saturday","meaning":"星期六","group":"g7a","unit":4,"source":9,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-10","word":"together","meaning":"一起","group":"g7a","unit":4,"source":10,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-11","word":"ready","meaning":"準備好的","group":"g7a","unit":4,"source":11,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-12","word":"p.m.","meaning":"下午；晚上","group":"g7a","unit":4,"source":12,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-13","word":"o'clock","meaning":"⋯點鐘","group":"g7a","unit":4,"source":13,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-14","word":"day","meaning":"日；天","group":"g7a","unit":4,"source":14,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-15","word":"today","meaning":"今天","group":"g7a","unit":4,"source":15,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-16","word":"Friday","meaning":"星期五","group":"g7a","unit":4,"source":16,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-17","word":"Sunday","meaning":"星期日","group":"g7a","unit":4,"source":17,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-18","word":"Monday","meaning":"星期一","group":"g7a","unit":4,"source":18,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-19","word":"Tuesday","meaning":"星期二","group":"g7a","unit":4,"source":19,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-20","word":"Wednesday","meaning":"星期三","group":"g7a","unit":4,"source":20,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-21","word":"Thursday","meaning":"星期四","group":"g7a","unit":4,"source":21,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-22","word":"week","meaning":"週；星期","group":"g7a","unit":4,"source":22,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-23","word":"a.m.","meaning":"上午；凌晨","group":"g7a","unit":4,"source":23,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-24","word":"study","meaning":"研讀","group":"g7a","unit":4,"source":24,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-25","word":"English","meaning":"英文","group":"g7a","unit":4,"source":25,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-26","word":"take a walk","meaning":"散步","group":"g7a","unit":4,"source":26,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-27","word":"movie","meaning":"電影","group":"g7a","unit":4,"source":27,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-28","word":"take a picture","meaning":"拍照","group":"g7a","unit":4,"source":28,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-29","word":"party","meaning":"派對；宴會","group":"g7a","unit":4,"source":29,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-30","word":"report","meaning":"報導","group":"g7a","unit":4,"source":30,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-31","word":"popular","meaning":"受歡迎的","group":"g7a","unit":4,"source":31,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-32","word":"fan","meaning":"⋯迷","group":"g7a","unit":4,"source":32,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-33","word":"shake hands","meaning":"握手","group":"g7a","unit":4,"source":33,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-34","word":"everyone","meaning":"每個人","group":"g7a","unit":4,"source":34,"stem":"","clue":"","distractors":[]},{"id":"g7a-4-35","word":"sign","meaning":"簽名","group":"g7a","unit":4,"source":35,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-1","word":"date","meaning":"日期","group":"g7a","unit":5,"source":1,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-2","word":"November","meaning":"十一月","group":"g7a","unit":5,"source":2,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-3","word":"first","meaning":"第一（的）","group":"g7a","unit":5,"source":3,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-4","word":"Thanksgiving","meaning":"感恩節","group":"g7a","unit":5,"source":4,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-5","word":"important","meaning":"重要的","group":"g7a","unit":5,"source":5,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-6","word":"holiday","meaning":"節日；假日","group":"g7a","unit":5,"source":6,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-7","word":"when","meaning":"何時","group":"g7a","unit":5,"source":7,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-8","word":"fourth","meaning":"第四（的）","group":"g7a","unit":5,"source":8,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-9","word":"birthday","meaning":"生日","group":"g7a","unit":5,"source":9,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-10","word":"also","meaning":"也；此外","group":"g7a","unit":5,"source":10,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-11","word":"before","meaning":"在⋯之前","group":"g7a","unit":5,"source":11,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-12","word":"around","meaning":"圍繞；在⋯附近","group":"g7a","unit":5,"source":12,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-13","word":"How about...?","meaning":"那⋯呢？","group":"g7a","unit":5,"source":13,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-14","word":"second","meaning":"第二（的）","group":"g7a","unit":5,"source":14,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-15","word":"next","meaning":"下一個的","group":"g7a","unit":5,"source":15,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-16","word":"month","meaning":"月份","group":"g7a","unit":5,"source":16,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-17","word":"January","meaning":"一月","group":"g7a","unit":5,"source":17,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-18","word":"February","meaning":"二月","group":"g7a","unit":5,"source":18,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-19","word":"March","meaning":"三月","group":"g7a","unit":5,"source":19,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-20","word":"April","meaning":"四月","group":"g7a","unit":5,"source":20,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-21","word":"May","meaning":"五月","group":"g7a","unit":5,"source":21,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-22","word":"June","meaning":"六月","group":"g7a","unit":5,"source":22,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-23","word":"July","meaning":"七月","group":"g7a","unit":5,"source":23,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-24","word":"August","meaning":"八月","group":"g7a","unit":5,"source":24,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-25","word":"September","meaning":"九月","group":"g7a","unit":5,"source":25,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-26","word":"October","meaning":"十月","group":"g7a","unit":5,"source":26,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-27","word":"December","meaning":"十二月","group":"g7a","unit":5,"source":27,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-28","word":"New Year's Eve","meaning":"元旦前夕","group":"g7a","unit":5,"source":28,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-29","word":"Christmas","meaning":"聖誕節","group":"g7a","unit":5,"source":29,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-30","word":"third","meaning":"第三（的）","group":"g7a","unit":5,"source":30,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-31","word":"animal","meaning":"動物","group":"g7a","unit":5,"source":31,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-32","word":"cow","meaning":"牛；乳牛","group":"g7a","unit":5,"source":32,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-33","word":"think","meaning":"想；認為","group":"g7a","unit":5,"source":33,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-34","word":"lucky","meaning":"幸運的","group":"g7a","unit":5,"source":34,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-35","word":"only","meaning":"只是；唯一的","group":"g7a","unit":5,"source":35,"stem":"","clue":"","distractors":[]},{"id":"g7a-5-36","word":"dinner","meaning":"晚餐","group":"g7a","unit":5,"source":36,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-1","word":"lion","meaning":"獅子","group":"g7a","unit":6,"source":1,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-2","word":"over there","meaning":"在那裡","group":"g7a","unit":6,"source":2,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-3","word":"king","meaning":"國王","group":"g7a","unit":6,"source":3,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-4","word":"some","meaning":"一些（的）","group":"g7a","unit":6,"source":4,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-5","word":"elephant","meaning":"大象","group":"g7a","unit":6,"source":5,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-6","word":"so","meaning":"如此地","group":"g7a","unit":6,"source":6,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-7","word":"any","meaning":"任何（的）","group":"g7a","unit":6,"source":7,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-8","word":"tiger","meaning":"老虎","group":"g7a","unit":6,"source":8,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-9","word":"zebra","meaning":"斑馬","group":"g7a","unit":6,"source":9,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-10","word":"back","meaning":"背；後面","group":"g7a","unit":6,"source":10,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-11","word":"help","meaning":"幫助；幫忙","group":"g7a","unit":6,"source":11,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-12","word":"right","meaning":"正確的","group":"g7a","unit":6,"source":12,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-13","word":"monkey","meaning":"猴子","group":"g7a","unit":6,"source":13,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-14","word":"fox","meaning":"狐狸","group":"g7a","unit":6,"source":14,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-15","word":"horse","meaning":"馬","group":"g7a","unit":6,"source":15,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-16","word":"rat","meaning":"老鼠","group":"g7a","unit":6,"source":16,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-17","word":"bear","meaning":"熊","group":"g7a","unit":6,"source":17,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-18","word":"world","meaning":"世界","group":"g7a","unit":6,"source":18,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-19","word":"example","meaning":"實例","group":"g7a","unit":6,"source":19,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-20","word":"bug","meaning":"蟲子","group":"g7a","unit":6,"source":20,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-21","word":"food","meaning":"食物","group":"g7a","unit":6,"source":21,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-22","word":"clean up","meaning":"清理；打掃","group":"g7a","unit":6,"source":22,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-23","word":"full","meaning":"飽的；滿的","group":"g7a","unit":6,"source":23,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-24","word":"healthy","meaning":"健康的","group":"g7a","unit":6,"source":24,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-25","word":"thanks to","meaning":"幸虧；由於","group":"g7a","unit":6,"source":25,"stem":"","clue":"","distractors":[]},{"id":"g7a-6-26","word":"clean","meaning":"乾淨的","group":"g7a","unit":6,"source":26,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-1","word":"like","meaning":"喜歡；像","group":"g7b","unit":1,"source":1,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-2","word":"sport","meaning":"運動","group":"g7b","unit":1,"source":2,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-3","word":"much","meaning":"多（的）","group":"g7b","unit":1,"source":3,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-4","word":"team","meaning":"隊；組","group":"g7b","unit":1,"source":4,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-5","word":"practice","meaning":"練習","group":"g7b","unit":1,"source":5,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-6","word":"every","meaning":"每一","group":"g7b","unit":1,"source":6,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-7","word":"then","meaning":"那麼","group":"g7b","unit":1,"source":7,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-8","word":"swim","meaning":"游泳","group":"g7b","unit":1,"source":8,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-9","word":"join","meaning":"參加","group":"g7b","unit":1,"source":9,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-10","word":"eye","meaning":"眼睛","group":"g7b","unit":1,"source":10,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-11","word":"hair","meaning":"頭髮","group":"g7b","unit":1,"source":11,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-12","word":"know","meaning":"知道；認識","group":"g7b","unit":1,"source":12,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-13","word":"hundred","meaning":"百","group":"g7b","unit":1,"source":13,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-14","word":"centimeter","meaning":"公分","group":"g7b","unit":1,"source":14,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-15","word":"You can say that again!","meaning":"一點也沒錯！","group":"g7b","unit":1,"source":15,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-16","word":"guitar","meaning":"吉他","group":"g7b","unit":1,"source":16,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-17","word":"piano","meaning":"鋼琴","group":"g7b","unit":1,"source":17,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-18","word":"fly a kite","meaning":"放風箏","group":"g7b","unit":1,"source":18,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-19","word":"paint","meaning":"畫圖；油漆","group":"g7b","unit":1,"source":19,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-20","word":"make a cake","meaning":"做蛋糕","group":"g7b","unit":1,"source":20,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-21","word":"nose","meaning":"鼻子","group":"g7b","unit":1,"source":21,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-22","word":"leg","meaning":"腿","group":"g7b","unit":1,"source":22,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-23","word":"large","meaning":"大的","group":"g7b","unit":1,"source":23,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-24","word":"ear","meaning":"耳朵","group":"g7b","unit":1,"source":24,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-25","word":"mouth","meaning":"嘴巴","group":"g7b","unit":1,"source":25,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-26","word":"thick","meaning":"厚的","group":"g7b","unit":1,"source":26,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-27","word":"lip","meaning":"嘴唇","group":"g7b","unit":1,"source":27,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-28","word":"strong","meaning":"強壯的","group":"g7b","unit":1,"source":28,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-29","word":"arm","meaning":"手臂","group":"g7b","unit":1,"source":29,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-30","word":"height","meaning":"身高；高度","group":"g7b","unit":1,"source":30,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-31","word":"player","meaning":"選手；球員","group":"g7b","unit":1,"source":31,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-32","word":"the USA","meaning":"美國","group":"g7b","unit":1,"source":32,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-33","word":"body","meaning":"身體","group":"g7b","unit":1,"source":33,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-34","word":"put one’s all","meaning":"盡全力","group":"g7b","unit":1,"source":34,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-35","word":"into","meaning":"到…裡面","group":"g7b","unit":1,"source":35,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-36","word":"a lot of","meaning":"很多的","group":"g7b","unit":1,"source":36,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-37","word":"stand out","meaning":"突出","group":"g7b","unit":1,"source":37,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-38","word":"different","meaning":"不同的","group":"g7b","unit":1,"source":38,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-39","word":"top","meaning":"頂尖的","group":"g7b","unit":1,"source":39,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-40","word":"on the other hand","meaning":"另一方面","group":"g7b","unit":1,"source":40,"stem":"","clue":"","distractors":[]},{"id":"g7b-1-41","word":"make up for…","meaning":"彌補…","group":"g7b","unit":1,"source":41,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-1","word":"early","meaning":"早的","group":"g7b","unit":2,"source":1,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-2","word":"work","meaning":"工作","group":"g7b","unit":2,"source":2,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-3","word":"often","meaning":"經常","group":"g7b","unit":2,"source":3,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-4","word":"get up","meaning":"起床","group":"g7b","unit":2,"source":4,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-5","word":"usually","meaning":"通常","group":"g7b","unit":2,"source":5,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-6","word":"seldom","meaning":"很少","group":"g7b","unit":2,"source":6,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-7","word":"sometimes","meaning":"有時候","group":"g7b","unit":2,"source":7,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-8","word":"even","meaning":"甚至","group":"g7b","unit":2,"source":8,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-9","word":"late","meaning":"晚的","group":"g7b","unit":2,"source":9,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-10","word":"do one’s homework","meaning":"做功課","group":"g7b","unit":2,"source":10,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-11","word":"hour","meaning":"小時","group":"g7b","unit":2,"source":11,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-12","word":"always","meaning":"總是","group":"g7b","unit":2,"source":12,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-13","word":"tired","meaning":"疲累的","group":"g7b","unit":2,"source":13,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-14","word":"shower","meaning":"淋浴","group":"g7b","unit":2,"source":14,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-15","word":"never","meaning":"從未","group":"g7b","unit":2,"source":15,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-16","word":"by the way","meaning":"順帶一提","group":"g7b","unit":2,"source":16,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-17","word":"library","meaning":"圖書館","group":"g7b","unit":2,"source":17,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-18","word":"check out","meaning":"借（書）","group":"g7b","unit":2,"source":18,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-19","word":"once","meaning":"一次","group":"g7b","unit":2,"source":19,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-20","word":"twice","meaning":"兩次","group":"g7b","unit":2,"source":20,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-21","word":"walk","meaning":"溜（寵物）","group":"g7b","unit":2,"source":21,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-22","group":"g7b","unit":2,"source":22,"word":"I can’t help it.","meaning":"我沒辦法；我控制不了","stem":"","clue":"","distractors":[]},{"id":"g7b-2-23","word":"then","meaning":"然後","group":"g7b","unit":2,"source":23,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-24","word":"too","meaning":"太…","group":"g7b","unit":2,"source":24,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-25","word":"How often…?","meaning":"多常…？","group":"g7b","unit":2,"source":25,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-26","word":"about","meaning":"大約","group":"g7b","unit":2,"source":26,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-27","word":"brush one’s teeth","meaning":"刷牙","group":"g7b","unit":2,"source":27,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-28","word":"face","meaning":"臉","group":"g7b","unit":2,"source":28,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-29","word":"breakfast","meaning":"早餐","group":"g7b","unit":2,"source":29,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-30","word":"lunch","meaning":"午餐","group":"g7b","unit":2,"source":30,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-31","word":"exercise","meaning":"運動","group":"g7b","unit":2,"source":31,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-32","word":"computer","meaning":"電腦","group":"g7b","unit":2,"source":32,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-33","word":"minute","meaning":"分鐘","group":"g7b","unit":2,"source":33,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-34","word":"answer","meaning":"回答；答案","group":"g7b","unit":2,"source":34,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-35","word":"question","meaning":"問題","group":"g7b","unit":2,"source":35,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-36","word":"trouble","meaning":"困難；麻煩","group":"g7b","unit":2,"source":36,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-37","word":"life","meaning":"生命；生活","group":"g7b","unit":2,"source":37,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-38","word":"love","meaning":"愛","group":"g7b","unit":2,"source":38,"stem":"","clue":"","distractors":[]},{"id":"g7b-2-39","word":"real","meaning":"真實的","group":"g7b","unit":2,"source":39,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-1","word":"painting","meaning":"畫作","group":"g7b","unit":3,"source":1,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-2","word":"flower","meaning":"花","group":"g7b","unit":3,"source":2,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-3","word":"which","meaning":"哪一個","group":"g7b","unit":3,"source":3,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-4","word":"thirsty","meaning":"口渴的","group":"g7b","unit":3,"source":4,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-5","word":"coffee","meaning":"咖啡","group":"g7b","unit":3,"source":5,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-6","word":"shop","meaning":"商店","group":"g7b","unit":3,"source":6,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-7","word":"later","meaning":"稍後；晚點","group":"g7b","unit":3,"source":7,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-8","word":"Of course.","meaning":"當然。","group":"g7b","unit":3,"source":8,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-9","word":"clerk","meaning":"店員","group":"g7b","unit":3,"source":9,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-10","word":"may","meaning":"可以；可能","group":"g7b","unit":3,"source":10,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-11","word":"juice","meaning":"果汁","group":"g7b","unit":3,"source":11,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-12","word":"want","meaning":"想要","group":"g7b","unit":3,"source":12,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-13","word":"anything","meaning":"任何事物","group":"g7b","unit":3,"source":13,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-14","word":"else","meaning":"其他","group":"g7b","unit":3,"source":14,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-15","word":"treat","meaning":"請客；款待","group":"g7b","unit":3,"source":15,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-16","word":"sweet","meaning":"甜美的；甜的","group":"g7b","unit":3,"source":16,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-17","word":"hot","meaning":"熱的","group":"g7b","unit":3,"source":17,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-18","word":"chocolate","meaning":"巧克力","group":"g7b","unit":3,"source":18,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-19","word":"dollar","meaning":"元","group":"g7b","unit":3,"source":19,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-20","word":"for here","meaning":"內用","group":"g7b","unit":3,"source":20,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-21","word":"to go","meaning":"外帶","group":"g7b","unit":3,"source":21,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-22","word":"Here you are.","meaning":"給你。","group":"g7b","unit":3,"source":22,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-23","word":"bright","meaning":"鮮豔的；明亮的","group":"g7b","unit":3,"source":23,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-24","word":"dark","meaning":"黑的；暗的","group":"g7b","unit":3,"source":24,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-25","word":"art","meaning":"美術；藝術","group":"g7b","unit":3,"source":25,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-26","word":"milk","meaning":"牛奶","group":"g7b","unit":3,"source":26,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-27","word":"hamburger","meaning":"漢堡","group":"g7b","unit":3,"source":27,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-28","word":"chicken rice","meaning":"雞肉飯","group":"g7b","unit":3,"source":28,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-29","word":"tea","meaning":"茶","group":"g7b","unit":3,"source":29,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-30","word":"ice cream","meaning":"冰淇淋","group":"g7b","unit":3,"source":30,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-31","word":"soup","meaning":"湯","group":"g7b","unit":3,"source":31,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-32","word":"sandwich","meaning":"三明治","group":"g7b","unit":3,"source":32,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-33","word":"work","meaning":"作品","group":"g7b","unit":3,"source":33,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-34","word":"show","meaning":"表現；秀出","group":"g7b","unit":3,"source":34,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-35","word":"part","meaning":"部分","group":"g7b","unit":3,"source":35,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-36","word":"sky","meaning":"天空","group":"g7b","unit":3,"source":36,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-37","word":"street","meaning":"街道","group":"g7b","unit":3,"source":37,"stem":"","clue":"","distractors":[]},{"id":"g7b-3-38","word":"by","meaning":"被；由","group":"g7b","unit":3,"source":38,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-1","word":"why","meaning":"為什麼","group":"g7b","unit":4,"source":1,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-2","word":"wear","meaning":"戴；穿","group":"g7b","unit":4,"source":2,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-3","word":"mask","meaning":"口罩；面具","group":"g7b","unit":4,"source":3,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-4","word":"because","meaning":"因為","group":"g7b","unit":4,"source":4,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-5","word":"sick","meaning":"生病的","group":"g7b","unit":4,"source":5,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-6","word":"water","meaning":"水","group":"g7b","unit":4,"source":6,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-7","word":"glass","meaning":"玻璃杯；玻璃","group":"g7b","unit":4,"source":7,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-8","word":"flour","meaning":"麵粉","group":"g7b","unit":4,"source":8,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-9","word":"need","meaning":"需要；需求","group":"g7b","unit":4,"source":9,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-10","word":"pie","meaning":"派","group":"g7b","unit":4,"source":10,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-11","word":"still","meaning":"仍然","group":"g7b","unit":4,"source":11,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-12","word":"thing","meaning":"東西；事情","group":"g7b","unit":4,"source":12,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-13","word":"a little","meaning":"一點點","group":"g7b","unit":4,"source":13,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-14","word":"salt","meaning":"鹽","group":"g7b","unit":4,"source":14,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-15","word":"something","meaning":"某物；某事","group":"g7b","unit":4,"source":15,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-16","word":"sugar","meaning":"糖","group":"g7b","unit":4,"source":16,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-17","word":"get","meaning":"取得","group":"g7b","unit":4,"source":17,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-18","word":"all right","meaning":"好吧；好的","group":"g7b","unit":4,"source":18,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-19","word":"so","meaning":"所以","group":"g7b","unit":4,"source":19,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-20","word":"back off","meaning":"退後；走開","group":"g7b","unit":4,"source":20,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-21","word":"meal","meaning":"餐","group":"g7b","unit":4,"source":21,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-22","word":"bottle","meaning":"瓶子","group":"g7b","unit":4,"source":22,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-23","word":"candy","meaning":"糖果","group":"g7b","unit":4,"source":23,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-24","word":"popcorn","meaning":"爆米花","group":"g7b","unit":4,"source":24,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-25","word":"cup","meaning":"杯","group":"g7b","unit":4,"source":25,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-26","word":"bowl","meaning":"碗","group":"g7b","unit":4,"source":26,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-27","word":"fruit salad","meaning":"水果沙拉","group":"g7b","unit":4,"source":27,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-28","word":"pizza","meaning":"披薩","group":"g7b","unit":4,"source":28,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-29","word":"milk shake","meaning":"奶昔","group":"g7b","unit":4,"source":29,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-30","word":"can","meaning":"罐子","group":"g7b","unit":4,"source":30,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-31","word":"toast","meaning":"烤土司；烘烤","group":"g7b","unit":4,"source":31,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-32","word":"bread","meaning":"麵包","group":"g7b","unit":4,"source":32,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-33","word":"yummy","meaning":"好吃的","group":"g7b","unit":4,"source":33,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-34","word":"easy","meaning":"容易的","group":"g7b","unit":4,"source":34,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-35","word":"snack","meaning":"點心","group":"g7b","unit":4,"source":35,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-36","word":"kid","meaning":"小孩","group":"g7b","unit":4,"source":36,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-37","word":"cheese","meaning":"起司","group":"g7b","unit":4,"source":37,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-38","word":"plate","meaning":"盤子","group":"g7b","unit":4,"source":38,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-39","word":"last","meaning":"最後（的）","group":"g7b","unit":4,"source":39,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-40","word":"enjoy","meaning":"享受；喜愛","group":"g7b","unit":4,"source":40,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-41","word":"turn into","meaning":"(使) 變成","group":"g7b","unit":4,"source":41,"stem":"","clue":"","distractors":[]},{"id":"g7b-4-42","word":"each","meaning":"每一個 (的)","group":"g7b","unit":4,"source":42,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-1","word":"yesterday","meaning":"昨天","group":"g7b","unit":5,"source":1,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-2","word":"beach","meaning":"海灘","group":"g7b","unit":5,"source":2,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-3","word":"trash","meaning":"垃圾","group":"g7b","unit":5,"source":3,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-4","word":"ago","meaning":"前；以前","group":"g7b","unit":5,"source":4,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-5","word":"visit","meaning":"拜訪","group":"g7b","unit":5,"source":5,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-6","word":"island","meaning":"島嶼","group":"g7b","unit":5,"source":6,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-7","word":"a few","meaning":"幾個；一些","group":"g7b","unit":5,"source":7,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-8","word":"sea","meaning":"海","group":"g7b","unit":5,"source":8,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-9","word":"stop","meaning":"停止","group":"g7b","unit":5,"source":9,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-10","word":"happen","meaning":"發生","group":"g7b","unit":5,"source":10,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-11","word":"dead","meaning":"死亡的","group":"g7b","unit":5,"source":11,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-12","word":"warm","meaning":"溫暖的","group":"g7b","unit":5,"source":12,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-13","word":"rainforest","meaning":"雨林","group":"g7b","unit":5,"source":13,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-14","word":"die","meaning":"死亡","group":"g7b","unit":5,"source":14,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-15","word":"by","meaning":"在…旁邊","group":"g7b","unit":5,"source":15,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-16","group":"g7b","unit":5,"source":16,"word":"How come?","meaning":"怎麼會；為什麼","stem":"","clue":"","distractors":[]},{"id":"g7b-5-17","word":"then","meaning":"那時候","group":"g7b","unit":5,"source":17,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-18","word":"busy","meaning":"忙碌的","group":"g7b","unit":5,"source":18,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-19","word":"river","meaning":"河流","group":"g7b","unit":5,"source":19,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-20","word":"lake","meaning":"湖泊","group":"g7b","unit":5,"source":20,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-21","word":"hill","meaning":"山丘","group":"g7b","unit":5,"source":21,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-22","word":"mountain","meaning":"山","group":"g7b","unit":5,"source":22,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-23","word":"camp","meaning":"露營；紮營","group":"g7b","unit":5,"source":23,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-24","word":"climb","meaning":"爬（山）","group":"g7b","unit":5,"source":24,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-25","word":"row a boat","meaning":"划船","group":"g7b","unit":5,"source":25,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-26","word":"plant","meaning":"種植；植物","group":"g7b","unit":5,"source":26,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-27","word":"hike","meaning":"健行","group":"g7b","unit":5,"source":27,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-28","word":"picnic","meaning":"野餐","group":"g7b","unit":5,"source":28,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-29","word":"last","meaning":"上一個的","group":"g7b","unit":5,"source":29,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-30","word":"live","meaning":"居住","group":"g7b","unit":5,"source":30,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-31","word":"playground","meaning":"遊樂場；操場","group":"g7b","unit":5,"source":31,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-32","word":"everything","meaning":"每樣事物","group":"g7b","unit":5,"source":32,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-33","word":"change","meaning":"改變","group":"g7b","unit":5,"source":33,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-34","word":"burn","meaning":"燃燒","group":"g7b","unit":5,"source":34,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-35","word":"oil","meaning":"油","group":"g7b","unit":5,"source":35,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-36","word":"sell","meaning":"賣","group":"g7b","unit":5,"source":36,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-37","word":"make money","meaning":"賺錢","group":"g7b","unit":5,"source":37,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-38","word":"miss","meaning":"想念","group":"g7b","unit":5,"source":38,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-39","word":"little","meaning":"小的","group":"g7b","unit":5,"source":39,"stem":"","clue":"","distractors":[]},{"id":"g7b-5-40","group":"g7b","unit":5,"source":40,"word":"little by little","meaning":"一點一點地；逐漸地","stem":"","clue":"","distractors":[]},{"id":"g7b-5-41","word":"way","meaning":"方式","group":"g7b","unit":5,"source":41,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-1","word":"airport","meaning":"機場","group":"g7b","unit":6,"source":1,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-2","word":"travel","meaning":"旅行；行進","group":"g7b","unit":6,"source":2,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-3","word":"rest","meaning":"休息","group":"g7b","unit":6,"source":3,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-4","word":"hotel","meaning":"飯店","group":"g7b","unit":6,"source":4,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-5","word":"plane","meaning":"飛機","group":"g7b","unit":6,"source":5,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-6","word":"the sights","meaning":"風景；名勝","group":"g7b","unit":6,"source":6,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-7","word":"bookstore","meaning":"書店","group":"g7b","unit":6,"source":7,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-8","word":"buy","meaning":"購買","group":"g7b","unit":6,"source":8,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-9","word":"just","meaning":"就；只","group":"g7b","unit":6,"source":9,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-10","word":"learn","meaning":"學習","group":"g7b","unit":6,"source":10,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-11","word":"story","meaning":"故事","group":"g7b","unit":6,"source":11,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-12","word":"cool","meaning":"酷的","group":"g7b","unit":6,"source":12,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-13","word":"train","meaning":"火車","group":"g7b","unit":6,"source":13,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-14","word":"cold","meaning":"冷的","group":"g7b","unit":6,"source":14,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-15","word":"try","meaning":"嘗試","group":"g7b","unit":6,"source":15,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-16","word":"way","meaning":"距離；路線","group":"g7b","unit":6,"source":16,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-17","word":"take","meaning":"帶；拿；取","group":"g7b","unit":6,"source":17,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-18","word":"the other day","meaning":"前幾天","group":"g7b","unit":6,"source":18,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-19","word":"station","meaning":"車站；局","group":"g7b","unit":6,"source":19,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-20","word":"department store","meaning":"百貨公司","group":"g7b","unit":6,"source":20,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-21","word":"restaurant","meaning":"餐廳","group":"g7b","unit":6,"source":21,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-22","word":"theater","meaning":"電影院","group":"g7b","unit":6,"source":22,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-23","word":"market","meaning":"市場","group":"g7b","unit":6,"source":23,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-24","word":"temple","meaning":"寺廟","group":"g7b","unit":6,"source":24,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-25","word":"famous","meaning":"有名的","group":"g7b","unit":6,"source":25,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-26","word":"during","meaning":"在…期間","group":"g7b","unit":6,"source":26,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-27","word":"besides","meaning":"除…之外","group":"g7b","unit":6,"source":27,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-28","word":"fall in love","meaning":"墜入情網","group":"g7b","unit":6,"source":28,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-29","word":"age","meaning":"年紀","group":"g7b","unit":6,"source":29,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-30","word":"lose","meaning":"失去","group":"g7b","unit":6,"source":30,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-31","word":"cry","meaning":"哭泣","group":"g7b","unit":6,"source":31,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-32","word":"hide","meaning":"躲藏","group":"g7b","unit":6,"source":32,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-33","word":"build","meaning":"建造","group":"g7b","unit":6,"source":33,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-34","word":"trip","meaning":"旅行；行程","group":"g7b","unit":6,"source":34,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-35","word":"sadly","meaning":"令人傷心地","group":"g7b","unit":6,"source":35,"stem":"","clue":"","distractors":[]},{"id":"g7b-6-36","word":"last","meaning":"持續","group":"g7b","unit":6,"source":36,"stem":"","clue":"","distractors":[]},{"id":"u1-1","group":"u1","unit":1,"source":1,"word":"summer vacation","meaning":"暑假","stem":"During {summer vacation}, we do not go to school in July and August.","clue":"July and August 與不用上學，指出七、八月的暑假。","distractors":["寒假","週末","午休"]},{"id":"u1-2","group":"u1","unit":1,"source":2,"word":"weather","meaning":"天氣","stem":"How is the {weather} today? Is it hot or cold?","clue":"hot or cold 是在詢問天氣冷熱。","distractors":["季節","時間","身體"]},{"id":"u1-3","group":"u1","unit":1,"source":3,"word":"Taiwan","meaning":"臺灣","stem":"","clue":"","distractors":[]},{"id":"u1-4","group":"u1","unit":1,"source":4,"word":"fun","meaning":"樂趣；有趣的","stem":"","clue":"","distractors":[]},{"id":"u1-5","group":"u1","unit":1,"source":5,"word":"snow","meaning":"雪","stem":"Look at the white {snow} on the mountain. It is very cold.","clue":"山上白色且冰冷的東西，配合 snow 判斷為雪。","distractors":["沙子","雨水","石頭"]},{"id":"u1-6","group":"u1","unit":1,"source":6,"word":"send","meaning":"寄送","stem":"Please {send} this gift to Amy. She is in the USA now.","clue":"禮物要送到人在美國的 Amy 手上，send 指寄送。","distractors":["販賣","拿走","藏起"]},{"id":"u1-7","group":"u1","unit":1,"source":7,"word":"postcard","meaning":"明信片","stem":"This {postcard} has a picture on the front and a few words on the back.","clue":"正面有圖片、背面有文字，符合明信片的特徵。","distractors":["課本","地圖","海報"]},{"id":"u1-8","group":"u1","unit":1,"source":8,"word":"borrow","meaning":"借入","stem":"Can I {borrow} your pencil? You can have it back after class.","clue":"我要使用你的鉛筆，並在下課後歸還，是向人借入。","distractors":["借出","送給","買下"]},{"id":"u1-9","group":"u1","unit":1,"source":9,"word":"lend","meaning":"借出","stem":"I can {lend} you my notebook, but I need it back tomorrow.","clue":"把我的筆記本交給你暫時使用，是借出。","distractors":["借入","賣掉","丟掉"]},{"id":"u1-10","group":"u1","unit":1,"source":10,"word":"gloves","meaning":"手套","stem":"It is cold. Wear these {gloves} to keep your hands warm.","clue":"hands warm 表示穿戴在手上用來保暖。","distractors":["鞋子","圍巾","外套"]},{"id":"u1-11","group":"u1","unit":1,"source":11,"word":"kind","meaning":"親切的","stem":"Amy is {kind}. She always helps people and animals.","clue":"always helps people and animals 顯示她待人親切。","distractors":["種類","嚴厲的","自私的"]},{"id":"u1-12","group":"u1","unit":1,"source":12,"word":"lovely","meaning":"可愛的","stem":"What a {lovely} baby! Everyone thinks she is very cute.","clue":"very cute 直接提供「可愛的」同義線索。","distractors":["吵鬧的","飢餓的","疲累的"]},{"id":"u1-13","group":"u1","unit":1,"source":13,"word":"jacket","meaning":"夾克","stem":"It is cold. Wear your {jacket} over your shirt before you go out.","clue":"穿在襯衫外面保暖，四個選項中以夾克最合適。","distractors":["帽子","短褲","手套"]},{"id":"u1-14","group":"u1","unit":1,"source":14,"word":"give","meaning":"給予","stem":"I want to {give} you this book. It is your birthday gift.","clue":"birthday gift 表示把書當作禮物送給對方。","distractors":["買下","閱讀","借入"]},{"id":"u1-15","group":"u1","unit":1,"source":15,"word":"hate","meaning":"討厭","stem":"I {hate} this food. I never want to eat it again.","clue":"never want to eat it again 表示再也不想吃。","distractors":["喜愛","分享","記得"]},{"id":"u1-16","group":"u1","unit":1,"source":16,"word":"heavy","meaning":"沉重的","stem":"There are many large books in this bag. It is too {heavy} for me.","clue":"袋子裡有許多大本書，heavy 在此指重量很重。","distractors":["輕薄的","乾淨的","空的"]},{"id":"u1-17","group":"u1","unit":1,"source":17,"word":"seasons","meaning":"季節","stem":"There are four {seasons} in a year.","clue":"一年有四個季節；seasons 是 season 的複數。","distractors":["月份","星期","日期"]},{"id":"u1-18","group":"u1","unit":1,"source":18,"word":"spring","meaning":"春天","stem":"In {spring}, the days get warm, and we see many new flowers.","clue":"天氣轉暖、花朵開放，是春天的情境。","distractors":["秋天","夏天","冬天"]},{"id":"u1-19","group":"u1","unit":1,"source":19,"word":"cloud","meaning":"雲","stem":"Look at that white {cloud} in the sky. It looks like an elephant.","clue":"天空中像大象形狀的白色 cloud，指雲。","distractors":["星星","飛機","風箏"]},{"id":"u1-20","group":"u1","unit":1,"source":20,"word":"sun","meaning":"太陽","stem":"The {sun} is in the sky. It is big, bright, and hot.","clue":"bright and hot 說明太陽明亮且炙熱的特徵。","distractors":["月亮","雲朵","雨水"]},{"id":"u1-21","group":"u1","unit":1,"source":21,"word":"fall","meaning":"秋天","stem":"","clue":"","distractors":[]},{"id":"u1-22","group":"u1","unit":1,"source":22,"word":"wind","meaning":"風","stem":"","clue":"","distractors":[]},{"id":"u1-23","group":"u1","unit":1,"source":23,"word":"winter","meaning":"冬天","stem":"In {winter}, the days are cold, and we want hot soup.","clue":"寒冷的日子想喝熱湯，配合 winter 判斷為冬天。","distractors":["春天","夏天","秋天"]},{"id":"u1-24","group":"u1","unit":1,"source":24,"word":"sunny","meaning":"陽光普照的","stem":"It is {sunny} today. The sky is bright, and we can play at the beach.","clue":"The sky is bright 提示陽光充足的天氣。","distractors":["下雪的","下雨的","多霧的"]},{"id":"u1-25","group":"u1","unit":1,"source":25,"word":"snowy","meaning":"下雪的","stem":"","clue":"","distractors":[]},{"id":"u1-26","group":"u1","unit":1,"source":26,"word":"rainy","meaning":"下雨的","stem":"It is {rainy} today. Water is coming down from the sky.","clue":"水從天空落下，說明正在下雨。","distractors":["晴朗的","下雪的","風大的"]},{"id":"u1-27","group":"u1","unit":1,"source":27,"word":"cloudy","meaning":"多雲的","stem":"","clue":"","distractors":[]},{"id":"u1-28","group":"u1","unit":1,"source":28,"word":"windy","meaning":"風大的","stem":"It is {windy} today. We can fly our kites high in the sky.","clue":"能把風箏放得很高，提供有風的情境線索。","distractors":["下雪的","炎熱的","多霧的"]},{"id":"u1-29","group":"u1","unit":1,"source":29,"word":"cool","meaning":"涼爽的","stem":"It is {cool} this morning. It is a little cold, but I like it.","clue":"a little cold 說明 cool 在此描述氣溫涼爽。","distractors":["很酷的","冷漠的","冷靜的"]},{"id":"u1-30","group":"u1","unit":1,"source":30,"word":"speak","meaning":"講話","stem":"","clue":"","distractors":[]},{"id":"u1-31","group":"u1","unit":1,"source":31,"word":"angry","meaning":"生氣的","stem":"Dad is {angry} because I fight with my sister. He says, \"Stop!\"","clue":"孩子打架，爸爸喊 Stop，顯示生氣的情緒。","distractors":["幸運的","飢餓的","安靜的"]},{"id":"u1-32","group":"u1","unit":1,"source":32,"word":"actually","meaning":"事實上","stem":"You think I am sixteen. {Actually}, I am only thirteen.","clue":"先說對方的想法，再更正實際年齡，表示事實上。","distractors":["總是","因此","尤其"]},{"id":"u1-33","group":"u1","unit":1,"source":33,"word":"mean","meaning":"意指","stem":"What does this sign {mean}? Does it say we cannot eat here?","clue":"詢問標誌傳達的意思，因此 mean 指意指。","distractors":["相信","製作","忘記"]},{"id":"u1-34","group":"u1","unit":1,"source":34,"word":"another","meaning":"另一個","stem":"I am still hungry. May I have {another} sandwich?","clue":"still hungry 表示還餓，想再要另一個三明治。","distractors":["任何一個","相同的","每一個"]},{"id":"u1-35","group":"u1","unit":1,"source":35,"word":"order","meaning":"點餐","stem":"I want to {order} some food. May I have chicken rice and tea?","clue":"提出想吃喝的餐點，order 在此指點餐。","distractors":["命令","整理","付款"]},{"id":"u1-36","group":"u1","unit":1,"source":36,"word":"strange","meaning":"奇怪的","stem":"That is a {strange} animal. It has three eyes and six ears.","clue":"三隻眼睛、六隻耳朵的外形很不尋常。","distractors":["熟悉的","安全的","真實的"]},{"id":"u1-37","group":"u1","unit":1,"source":37,"word":"soon","meaning":"很快地","stem":"","clue":"","distractors":[]},{"id":"u1-38","group":"u1","unit":1,"source":38,"word":"road","meaning":"道路","stem":"This {road} goes from our school to the train station. Cars and buses use it.","clue":"連接學校與車站，供汽車和公車通行的是道路。","distractors":["河流","樓梯","鐵路"]},{"id":"u1-39","group":"u1","unit":1,"source":39,"word":"the ROC","meaning":"中華民國","stem":"","clue":"","distractors":[]},{"id":"u2-1","group":"u2","unit":2,"source":1,"word":"club","meaning":"社團","stem":"I go to the school art {club} every Friday. We paint and make things together.","clue":"固定一起畫畫、做東西，art club 指美術社團。","distractors":["球棒","商店","教室"]},{"id":"u2-2","group":"u2","unit":2,"source":2,"word":"make up one's mind","meaning":"下定決心","stem":"","clue":"","distractors":[]},{"id":"u2-3","group":"u2","unit":2,"source":3,"word":"interesting","meaning":"有趣的","stem":"The story is {interesting}. I want to read it again and again.","clue":"想一讀再讀，顯示故事很有趣。","distractors":["乾淨的","飢餓的","吵雜的"]},{"id":"u2-4","group":"u2","unit":2,"source":4,"word":"science","meaning":"科學","stem":"In {science} class, we learn why plants need water and how animals live.","clue":"學習植物需水與動物生活的知識，屬於科學。","distractors":["美術","音樂","體育"]},{"id":"u2-5","group":"u2","unit":2,"source":5,"word":"subject","meaning":"學科","stem":"English is my favorite {subject} at school. I study it every day.","clue":"at school 與 study 說明 English 是學校的學科。","distractors":["主題","主詞","對象"]},{"id":"u2-6","group":"u2","unit":2,"source":6,"word":"hear","meaning":"聽見","stem":"I can {hear} music, but I cannot see the band.","clue":"雖看不到樂團，仍能感受到音樂的聲音。","distractors":["看見","演奏","閱讀"]},{"id":"u2-7","group":"u2","unit":2,"source":7,"word":"same","meaning":"相同的","stem":"Your notebook is purple. My notebook is the {same} color: purple.","clue":"兩本筆記本都是紫色，所以顏色相同。","distractors":["不同的","特別的","明亮的"]},{"id":"u2-8","group":"u2","unit":2,"source":8,"word":"call","meaning":"打電話","stem":"Please {call} Mom. She is at home, and you can talk to her on the phone.","clue":"on the phone 明確指出是打電話給媽媽。","distractors":["稱呼","拜訪","等待"]},{"id":"u2-9","group":"u2","unit":2,"source":9,"word":"tell","meaning":"告訴","stem":"Please {tell} me your name. I want to know who you are.","clue":"想知道對方是誰，因此請對方告訴自己名字。","distractors":["聽見","跟隨","忘記"]},{"id":"u2-10","group":"u2","unit":2,"source":10,"word":"kid","meaning":"開玩笑","stem":"","clue":"","distractors":[]},{"id":"u2-11","group":"u2","unit":2,"source":11,"word":"poor","meaning":"貧窮的","stem":"The family is {poor}. They do not have enough money for food.","clue":"沒有足夠的錢買食物，poor 在此指經濟貧困。","distractors":["不佳的","生病的","忙碌的"]},{"id":"u2-12","group":"u2","unit":2,"source":12,"word":"end","meaning":"結尾","stem":"At the {end} of the movie, everyone goes home.","clue":"大家離場回家，表示電影已到結尾。","distractors":["開始","中間","內容"]},{"id":"u2-13","group":"u2","unit":2,"source":13,"word":"whose","meaning":"誰的","stem":"{Whose} pencil is this? Is it Amy's or Ben's?","clue":"Amy's or Ben's 詢問物品屬於誰。","distractors":["誰","哪一個","什麼"]},{"id":"u2-14","group":"u2","unit":2,"source":14,"word":"camera","meaning":"相機","stem":"Use this {camera} to take a picture of the beautiful flowers.","clue":"take a picture 指拍照，因此使用的是相機。","distractors":["筆刷","望遠鏡","筆記本"]},{"id":"u2-15","group":"u2","unit":2,"source":15,"word":"mine","meaning":"我的東西","stem":"A: Is this Amy's pen? B: No. It is {mine}. My name is on it.","clue":"回答筆的所有權；mine 在此相當於 my pen。","distractors":["我的名字","她的東西","礦坑"]},{"id":"u2-16","group":"u2","unit":2,"source":16,"word":"What's wrong?","meaning":"怎麼了","stem":"","clue":"","distractors":[]},{"id":"u2-17","group":"u2","unit":2,"source":17,"word":"when","meaning":"當⋯時","stem":"I always wash my hands {when} I get home.","clue":"連接洗手與到家兩個動作，表示當我到家時。","distractors":["何時","因為","雖然"]},{"id":"u2-18","group":"u2","unit":2,"source":18,"word":"return","meaning":"返回","stem":"","clue":"","distractors":[]},{"id":"u2-19","group":"u2","unit":2,"source":19,"word":"sign up","meaning":"報名參加","stem":"","clue":"","distractors":[]},{"id":"u2-20","group":"u2","unit":2,"source":20,"word":"wrong","meaning":"錯誤的","stem":"Your answer is {wrong}. Two and three make five, not six.","clue":"二加三是五而非六，顯示答案錯誤。","distractors":["正確的","困難的","相同的"]},{"id":"u2-21","group":"u2","unit":2,"source":21,"word":"hold on","meaning":"稍候","stem":"","clue":"","distractors":[]},{"id":"u2-22","group":"u2","unit":2,"source":22,"word":"math","meaning":"數學","stem":"In {math} class, we learn that two and three make five.","clue":"二加三等於五是數學課的計算內容。","distractors":["歷史","音樂","美術"]},{"id":"u2-23","group":"u2","unit":2,"source":23,"word":"soccer","meaning":"足球","stem":"Tom uses his feet to play {soccer}. He does not use his hands.","clue":"以腳踢球、不用手的運動，在選項中是足球。","distractors":["籃球","排球","棒球"]},{"id":"u2-24","group":"u2","unit":2,"source":24,"word":"Chinese","meaning":"中文","stem":"I can read this story in {Chinese}, but I cannot read the English one.","clue":"read 與 English 提示 Chinese 在此是語言。","distractors":["中國人","中國的","中國"]},{"id":"u2-25","group":"u2","unit":2,"source":25,"word":"history","meaning":"歷史","stem":"In {history} class, we read about life a hundred years ago.","clue":"a hundred years ago 表示學習過去的生活。","distractors":["地理","美術","體育"]},{"id":"u2-26","group":"u2","unit":2,"source":26,"word":"violin","meaning":"小提琴","stem":"","clue":"","distractors":[]},{"id":"u2-27","group":"u2","unit":2,"source":27,"word":"robot","meaning":"機器人","stem":"The {robot} is not a real person, but it can talk and help clean the house.","clue":"不是人，卻能說話並協助打掃，符合機器人。","distractors":["工程師","店員","家庭主婦"]},{"id":"u2-28","group":"u2","unit":2,"source":28,"word":"health","meaning":"健康","stem":"Good food, exercise, and enough rest are important for our {health}.","clue":"飲食、運動與休息都與身體健康有關。","distractors":["年齡","功課","天氣"]},{"id":"u2-29","group":"u2","unit":2,"source":29,"word":"PE","meaning":"體育","stem":"","clue":"","distractors":[]},{"id":"u2-30","group":"u2","unit":2,"source":30,"word":"look for","meaning":"尋找","stem":"","clue":"","distractors":[]},{"id":"u2-31","group":"u2","unit":2,"source":31,"word":"Ms.","meaning":"女士","stem":"","clue":"","distractors":[]},{"id":"u2-32","group":"u2","unit":2,"source":32,"word":"engineer","meaning":"工程師","stem":"My uncle is an {engineer}. He helps build computers for his work.","clue":"工作與製造電腦有關，四個選項中工程師最合適。","distractors":["教師","護理師","店員"]},{"id":"u2-33","group":"u2","unit":2,"source":33,"word":"lesson","meaning":"課；課程","stem":"","clue":"","distractors":[]},{"id":"u2-34","group":"u2","unit":2,"source":34,"word":"difficult","meaning":"困難的","stem":"This question is {difficult}. I cannot answer it.","clue":"cannot answer it 說明題目難以回答。","distractors":["容易的","相同的","有趣的"]},{"id":"u2-35","group":"u2","unit":2,"source":35,"word":"teach","meaning":"教導","stem":"Mr. Wang can {teach} us English. We learn a lot in his class.","clue":"我們在他的課堂學習，他扮演教導者的角色。","distractors":["學習","練習","忘記"]},{"id":"u2-36","group":"u2","unit":2,"source":36,"word":"own","meaning":"自己的","stem":"I have my {own} bedroom. I do not use my sister's room.","clue":"my own bedroom 指自己專用的臥室。","distractors":["擁有","共同的","陌生的"]},{"id":"u2-37","group":"u2","unit":2,"source":37,"word":"finish","meaning":"完成","stem":"Please {finish} your homework before you play. You still have three questions to answer.","clue":"尚有三題未作答，要求先把作業完成再玩。","distractors":["忘記","開始","抄寫"]},{"id":"u2-38","group":"u2","unit":2,"source":38,"word":"festival","meaning":"節慶","stem":"","clue":"","distractors":[]},{"id":"u2-39","group":"u2","unit":2,"source":39,"word":"begin","meaning":"開始","stem":"","clue":"","distractors":[]},{"id":"u2-40","group":"u2","unit":2,"source":40,"word":"choose","meaning":"選擇","stem":"You can {choose} one gift. Do you want the book or the notebook?","clue":"在書與筆記本之間挑一份禮物，是選擇。","distractors":["尋找","製作","丟掉"]},{"id":"u2-41","group":"u2","unit":2,"source":41,"word":"not ... at all","meaning":"一點也不","stem":"I do {not} like this soup {at all}. I do not want any of it.","clue":"do not want any 強調完全不想喝，一點也不喜歡。","distractors":["有時候","大部分","差一點"]},{"id":"u2-42","group":"u2","unit":2,"source":42,"word":"free","meaning":"免費的","stem":"This snack is {free}. You do not need any money for it.","clue":"do not need any money 表示不必付錢。","distractors":["有空的","自由的","空白的"]},{"id":"u2-43","group":"u2","unit":2,"source":43,"word":"show","meaning":"表演","stem":"The {show} is at seven. A band and two singers are in it.","clue":"有樂團與歌手參與、在七點舉行，show 在此指表演。","distractors":["展示","告知","顯得"]},{"id":"u2-44","group":"u2","unit":2,"source":44,"word":"miss out","meaning":"錯過機會","stem":"","clue":"","distractors":[]}];
+window.CONTEXT_QUESTIONS = [{"unit":1,"source":1,"word":"summer vacation","stem":"During {summer vacation}, we do not go to school in July and August.","meaning":"暑假","distractors":["寒假","週末","午休"],"clue":"July and August 與不用上學，指出七、八月的暑假。"},{"unit":1,"source":2,"word":"weather","stem":"How is the {weather} today? Is it hot or cold?","meaning":"天氣","distractors":["季節","時間","身體"],"clue":"hot or cold 是在詢問天氣冷熱。"},{"unit":1,"source":5,"word":"snow","stem":"Look at the white {snow} on the mountain. It is very cold.","meaning":"雪","distractors":["沙子","雨水","石頭"],"clue":"山上白色且冰冷的東西，配合 snow 判斷為雪。"},{"unit":1,"source":6,"word":"send","stem":"Please {send} this gift to Amy. She is in the USA now.","meaning":"寄送","distractors":["販賣","拿走","藏起"],"clue":"禮物要送到人在美國的 Amy 手上，send 指寄送。"},{"unit":1,"source":7,"word":"postcard","stem":"This {postcard} has a picture on the front and a few words on the back.","meaning":"明信片","distractors":["課本","地圖","海報"],"clue":"正面有圖片、背面有文字，符合明信片的特徵。"},{"unit":1,"source":8,"word":"borrow","stem":"Can I {borrow} your pencil? You can have it back after class.","meaning":"借入","distractors":["借出","送給","買下"],"clue":"我要使用你的鉛筆，並在下課後歸還，是向人借入。"},{"unit":1,"source":9,"word":"lend","stem":"I can {lend} you my notebook, but I need it back tomorrow.","meaning":"借出","distractors":["借入","賣掉","丟掉"],"clue":"把我的筆記本交給你暫時使用，是借出。"},{"unit":1,"source":10,"word":"gloves","stem":"It is cold. Wear these {gloves} to keep your hands warm.","meaning":"手套","distractors":["鞋子","圍巾","外套"],"clue":"hands warm 表示穿戴在手上用來保暖。"},{"unit":1,"source":11,"word":"kind","stem":"Amy is {kind}. She always helps people and animals.","meaning":"親切的","distractors":["種類","嚴厲的","自私的"],"clue":"always helps people and animals 顯示她待人親切。"},{"unit":1,"source":12,"word":"lovely","stem":"What a {lovely} baby! Everyone thinks she is very cute.","meaning":"可愛的","distractors":["吵鬧的","飢餓的","疲累的"],"clue":"very cute 直接提供「可愛的」同義線索。"},{"unit":1,"source":13,"word":"jacket","stem":"It is cold. Wear your {jacket} over your shirt before you go out.","meaning":"夾克","distractors":["帽子","短褲","手套"],"clue":"穿在襯衫外面保暖，四個選項中以夾克最合適。"},{"unit":1,"source":14,"word":"give","stem":"I want to {give} you this book. It is your birthday gift.","meaning":"給予","distractors":["買下","閱讀","借入"],"clue":"birthday gift 表示把書當作禮物送給對方。"},{"unit":1,"source":15,"word":"hate","stem":"I {hate} this food. I never want to eat it again.","meaning":"討厭","distractors":["喜愛","分享","記得"],"clue":"never want to eat it again 表示再也不想吃。"},{"unit":1,"source":16,"word":"heavy","stem":"There are many large books in this bag. It is too {heavy} for me.","meaning":"沉重的","distractors":["輕薄的","乾淨的","空的"],"clue":"袋子裡有許多大本書，heavy 在此指重量很重。"},{"unit":1,"source":17,"word":"seasons","stem":"There are four {seasons} in a year.","meaning":"季節","distractors":["月份","星期","日期"],"clue":"一年有四個季節；seasons 是 season 的複數。"},{"unit":1,"source":18,"word":"spring","stem":"In {spring}, the days get warm, and we see many new flowers.","meaning":"春天","distractors":["秋天","夏天","冬天"],"clue":"天氣轉暖、花朵開放，是春天的情境。"},{"unit":1,"source":19,"word":"cloud","stem":"Look at that white {cloud} in the sky. It looks like an elephant.","meaning":"雲","distractors":["星星","飛機","風箏"],"clue":"天空中像大象形狀的白色 cloud，指雲。"},{"unit":1,"source":20,"word":"sun","stem":"The {sun} is in the sky. It is big, bright, and hot.","meaning":"太陽","distractors":["月亮","雲朵","雨水"],"clue":"bright and hot 說明太陽明亮且炙熱的特徵。"},{"unit":1,"source":23,"word":"winter","stem":"In {winter}, the days are cold, and we want hot soup.","meaning":"冬天","distractors":["春天","夏天","秋天"],"clue":"寒冷的日子想喝熱湯，配合 winter 判斷為冬天。"},{"unit":1,"source":24,"word":"sunny","stem":"It is {sunny} today. The sky is bright, and we can play at the beach.","meaning":"陽光普照的","distractors":["下雪的","下雨的","多霧的"],"clue":"The sky is bright 提示陽光充足的天氣。"},{"unit":1,"source":26,"word":"rainy","stem":"It is {rainy} today. Water is coming down from the sky.","meaning":"下雨的","distractors":["晴朗的","下雪的","風大的"],"clue":"水從天空落下，說明正在下雨。"},{"unit":1,"source":28,"word":"windy","stem":"It is {windy} today. We can fly our kites high in the sky.","meaning":"風大的","distractors":["下雪的","炎熱的","多霧的"],"clue":"能把風箏放得很高，提供有風的情境線索。"},{"unit":1,"source":29,"word":"cool","stem":"It is {cool} this morning. It is a little cold, but I like it.","meaning":"涼爽的","distractors":["很酷的","冷漠的","冷靜的"],"clue":"a little cold 說明 cool 在此描述氣溫涼爽。"},{"unit":1,"source":31,"word":"angry","stem":"Dad is {angry} because I fight with my sister. He says, \"Stop!\"","meaning":"生氣的","distractors":["幸運的","飢餓的","安靜的"],"clue":"孩子打架，爸爸喊 Stop，顯示生氣的情緒。"},{"unit":1,"source":32,"word":"actually","stem":"You think I am sixteen. {Actually}, I am only thirteen.","meaning":"事實上","distractors":["總是","因此","尤其"],"clue":"先說對方的想法，再更正實際年齡，表示事實上。"},{"unit":1,"source":33,"word":"mean","stem":"What does this sign {mean}? Does it say we cannot eat here?","meaning":"意指","distractors":["相信","製作","忘記"],"clue":"詢問標誌傳達的意思，因此 mean 指意指。"},{"unit":1,"source":34,"word":"another","stem":"I am still hungry. May I have {another} sandwich?","meaning":"另一個","distractors":["任何一個","相同的","每一個"],"clue":"still hungry 表示還餓，想再要另一個三明治。"},{"unit":1,"source":35,"word":"order","stem":"I want to {order} some food. May I have chicken rice and tea?","meaning":"點餐","distractors":["命令","整理","付款"],"clue":"提出想吃喝的餐點，order 在此指點餐。"},{"unit":1,"source":36,"word":"strange","stem":"That is a {strange} animal. It has three eyes and six ears.","meaning":"奇怪的","distractors":["熟悉的","安全的","真實的"],"clue":"三隻眼睛、六隻耳朵的外形很不尋常。"},{"unit":1,"source":38,"word":"road","stem":"This {road} goes from our school to the train station. Cars and buses use it.","meaning":"道路","distractors":["河流","樓梯","鐵路"],"clue":"連接學校與車站，供汽車和公車通行的是道路。"},{"unit":2,"source":1,"word":"club","stem":"I go to the school art {club} every Friday. We paint and make things together.","meaning":"社團","distractors":["球棒","商店","教室"],"clue":"固定一起畫畫、做東西，art club 指美術社團。"},{"unit":2,"source":3,"word":"interesting","stem":"The story is {interesting}. I want to read it again and again.","meaning":"有趣的","distractors":["乾淨的","飢餓的","吵雜的"],"clue":"想一讀再讀，顯示故事很有趣。"},{"unit":2,"source":4,"word":"science","stem":"In {science} class, we learn why plants need water and how animals live.","meaning":"科學","distractors":["美術","音樂","體育"],"clue":"學習植物需水與動物生活的知識，屬於科學。"},{"unit":2,"source":5,"word":"subject","stem":"English is my favorite {subject} at school. I study it every day.","meaning":"學科","distractors":["主題","主詞","對象"],"clue":"at school 與 study 說明 English 是學校的學科。"},{"unit":2,"source":6,"word":"hear","stem":"I can {hear} music, but I cannot see the band.","meaning":"聽見","distractors":["看見","演奏","閱讀"],"clue":"雖看不到樂團，仍能感受到音樂的聲音。"},{"unit":2,"source":7,"word":"same","stem":"Your notebook is purple. My notebook is the {same} color: purple.","meaning":"相同的","distractors":["不同的","特別的","明亮的"],"clue":"兩本筆記本都是紫色，所以顏色相同。"},{"unit":2,"source":8,"word":"call","stem":"Please {call} Mom. She is at home, and you can talk to her on the phone.","meaning":"打電話","distractors":["稱呼","拜訪","等待"],"clue":"on the phone 明確指出是打電話給媽媽。"},{"unit":2,"source":9,"word":"tell","stem":"Please {tell} me your name. I want to know who you are.","meaning":"告訴","distractors":["聽見","跟隨","忘記"],"clue":"想知道對方是誰，因此請對方告訴自己名字。"},{"unit":2,"source":11,"word":"poor","stem":"The family is {poor}. They do not have enough money for food.","meaning":"貧窮的","distractors":["不佳的","生病的","忙碌的"],"clue":"沒有足夠的錢買食物，poor 在此指經濟貧困。"},{"unit":2,"source":12,"word":"end","stem":"At the {end} of the movie, everyone goes home.","meaning":"結尾","distractors":["開始","中間","內容"],"clue":"大家離場回家，表示電影已到結尾。"},{"unit":2,"source":13,"word":"whose","stem":"{Whose} pencil is this? Is it Amy's or Ben's?","meaning":"誰的","distractors":["誰","哪一個","什麼"],"clue":"Amy's or Ben's 詢問物品屬於誰。"},{"unit":2,"source":14,"word":"camera","stem":"Use this {camera} to take a picture of the beautiful flowers.","meaning":"相機","distractors":["筆刷","望遠鏡","筆記本"],"clue":"take a picture 指拍照，因此使用的是相機。"},{"unit":2,"source":15,"word":"mine","stem":"A: Is this Amy's pen? B: No. It is {mine}. My name is on it.","meaning":"我的東西","distractors":["我的名字","她的東西","礦坑"],"clue":"回答筆的所有權；mine 在此相當於 my pen。"},{"unit":2,"source":17,"word":"when","stem":"I always wash my hands {when} I get home.","meaning":"當⋯時","distractors":["何時","因為","雖然"],"clue":"連接洗手與到家兩個動作，表示當我到家時。"},{"unit":2,"source":20,"word":"wrong","stem":"Your answer is {wrong}. Two and three make five, not six.","meaning":"錯誤的","distractors":["正確的","困難的","相同的"],"clue":"二加三是五而非六，顯示答案錯誤。"},{"unit":2,"source":22,"word":"math","stem":"In {math} class, we learn that two and three make five.","meaning":"數學","distractors":["歷史","音樂","美術"],"clue":"二加三等於五是數學課的計算內容。"},{"unit":2,"source":23,"word":"soccer","stem":"Tom uses his feet to play {soccer}. He does not use his hands.","meaning":"足球","distractors":["籃球","排球","棒球"],"clue":"以腳踢球、不用手的運動，在選項中是足球。"},{"unit":2,"source":24,"word":"Chinese","stem":"I can read this story in {Chinese}, but I cannot read the English one.","meaning":"中文","distractors":["中國人","中國的","中國"],"clue":"read 與 English 提示 Chinese 在此是語言。"},{"unit":2,"source":25,"word":"history","stem":"In {history} class, we read about life a hundred years ago.","meaning":"歷史","distractors":["地理","美術","體育"],"clue":"a hundred years ago 表示學習過去的生活。"},{"unit":2,"source":28,"word":"health","stem":"Good food, exercise, and enough rest are important for our {health}.","meaning":"健康","distractors":["年齡","功課","天氣"],"clue":"飲食、運動與休息都與身體健康有關。"},{"unit":2,"source":27,"word":"robot","stem":"The {robot} is not a real person, but it can talk and help clean the house.","meaning":"機器人","distractors":["工程師","店員","家庭主婦"],"clue":"不是人，卻能說話並協助打掃，符合機器人。"},{"unit":2,"source":32,"word":"engineer","stem":"My uncle is an {engineer}. He helps build computers for his work.","meaning":"工程師","distractors":["教師","護理師","店員"],"clue":"工作與製造電腦有關，四個選項中工程師最合適。"},{"unit":2,"source":34,"word":"difficult","stem":"This question is {difficult}. I cannot answer it.","meaning":"困難的","distractors":["容易的","相同的","有趣的"],"clue":"cannot answer it 說明題目難以回答。"},{"unit":2,"source":35,"word":"teach","stem":"Mr. Wang can {teach} us English. We learn a lot in his class.","meaning":"教導","distractors":["學習","練習","忘記"],"clue":"我們在他的課堂學習，他扮演教導者的角色。"},{"unit":2,"source":36,"word":"own","stem":"I have my {own} bedroom. I do not use my sister's room.","meaning":"自己的","distractors":["擁有","共同的","陌生的"],"clue":"my own bedroom 指自己專用的臥室。"},{"unit":2,"source":37,"word":"finish","stem":"Please {finish} your homework before you play. You still have three questions to answer.","meaning":"完成","distractors":["忘記","開始","抄寫"],"clue":"尚有三題未作答，要求先把作業完成再玩。"},{"unit":2,"source":40,"word":"choose","stem":"You can {choose} one gift. Do you want the book or the notebook?","meaning":"選擇","distractors":["尋找","製作","丟掉"],"clue":"在書與筆記本之間挑一份禮物，是選擇。"},{"unit":2,"source":41,"word":"not ... at all","stem":"I do {not} like this soup {at all}. I do not want any of it.","meaning":"一點也不","distractors":["有時候","大部分","差一點"],"clue":"do not want any 強調完全不想喝，一點也不喜歡。"},{"unit":2,"source":42,"word":"free","stem":"This snack is {free}. You do not need any money for it.","meaning":"免費的","distractors":["有空的","自由的","空白的"],"clue":"do not need any money 表示不必付錢。"},{"unit":2,"source":43,"word":"show","stem":"The {show} is at seven. A band and two singers are in it.","meaning":"表演","distractors":["展示","告知","顯得"],"clue":"有樂團與歌手參與、在七點舉行，show 在此指表演。"}];
+</script>
+    <script>(function () {
+  "use strict";
+
+  const BASE_WORDS = Array.isArray(window.VOCABULARY) ? window.VOCABULARY : [];
+  const CONTEXT_QUESTIONS = Array.isArray(window.CONTEXT_QUESTIONS) ? window.CONTEXT_QUESTIONS : [];
+  const contextByWord = new Map(CONTEXT_QUESTIONS.map((item) => [item.word.toLowerCase(), item]));
+  const STORAGE_WORDS = "word-detective-custom-v2";
+  const STORAGE_PROGRESS = "word-detective-progress-v2";
+  const STORAGE_THEME = "word-detective-theme-v1";
+  const STORAGE_BEST_STREAK = "word-detective-best-streak-v1";
+  const GROUP_LABELS = { all: "全部", g7a: "七上 G7A", g7b: "七下 G7B", u1: "Unit 1", u2: "Unit 2", custom: "自訂" };
+
+  const $ = (id) => document.getElementById(id);
+  const state = {
+    customWords: readStorage(STORAGE_WORDS, []),
+    progress: readStorage(STORAGE_PROGRESS, {}),
+    bestStreak: Number(localStorage.getItem(STORAGE_BEST_STREAK) || 0) || 0,
+    session: null,
+    lastWords: [],
+    lastSetup: { group: "all", mode: "context", count: 10 },
+  };
+
+  function readStorage(key, fallback) {
+    try {
+      const value = JSON.parse(localStorage.getItem(key) || "null");
+      return value == null ? fallback : value;
+    } catch (_error) {
+      return fallback;
+    }
+  }
+
+  function saveStorage(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (_error) { /* private browsing may disable storage */ }
+  }
+
+  function allWords() { return BASE_WORDS.concat(state.customWords); }
+
+  function selectedWords(group) {
+    const words = allWords();
+    if (group === "all") return words;
+    return words.filter((word) => word.group === group);
+  }
+
+  function shuffle(list) {
+    const result = list.slice();
+    for (let index = result.length - 1; index > 0; index -= 1) {
+      const swap = Math.floor(Math.random() * (index + 1));
+      [result[index], result[swap]] = [result[swap], result[index]];
+    }
+    return result;
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+  }
+
+  // ---------- Theme ----------
+  function applyTheme(theme) {
+    if (theme === "dark" || theme === "light") {
+      document.documentElement.setAttribute("data-theme", theme);
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+    }
+    const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDark = theme === "dark" || (theme !== "light" && prefersDark);
+    $("theme-toggle").textContent = isDark ? "☀️" : "🌙";
+    $("theme-toggle").setAttribute("aria-label", isDark ? "切換成淺色模式" : "切換成深色模式");
+  }
+
+  function toggleTheme() {
+    const current = localStorage.getItem(STORAGE_THEME);
+    const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const currentlyDark = current === "dark" || (!current && prefersDark);
+    const next = currentlyDark ? "light" : "dark";
+    try { localStorage.setItem(STORAGE_THEME, next); } catch (_error) { /* ignore */ }
+    applyTheme(next);
+  }
+
+  // ---------- Pronunciation ----------
+  function speak(text, button) {
+    if (!("speechSynthesis" in window) || !text) return;
+    try {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US";
+      utterance.rate = 0.92;
+      if (button) {
+        button.classList.add("is-speaking");
+        utterance.onend = () => button.classList.remove("is-speaking");
+        utterance.onerror = () => button.classList.remove("is-speaking");
+      }
+      window.speechSynthesis.speak(utterance);
+    } catch (_error) { /* speech synthesis unsupported */ }
+  }
+
+  function questionFor(word) {
+    const context = contextByWord.get(String(word.word).toLowerCase());
+    const stem = word.stem || (context && context.stem) || "";
+    const distractors = (word.distractors && word.distractors.length ? word.distractors : (context && context.distractors) || []).slice();
+    const clue = word.clue || (context && context.clue) || "把英文單字放回句子，想想它描述的人、事、物或動作。";
+    return { word, stem, distractors, clue };
+  }
+
+  function answerOptions(question, pool) {
+    const values = [];
+    const add = (value) => { if (value && !values.includes(value)) values.push(value); };
+    question.distractors.slice(0, 3).forEach(add);
+    shuffle(pool.filter((item) => item.id !== question.word.id).map((item) => item.meaning)).forEach((meaning) => {
+      if (values.length < 3) add(meaning);
+    });
+    add(question.word.meaning);
+    return shuffle(values);
+  }
+
+  function setTab(name) {
+    document.querySelectorAll("[data-tab]").forEach((button) => button.classList.toggle("is-active", button.dataset.tab === name));
+    document.querySelectorAll("[data-panel]").forEach((panel) => panel.classList.toggle("is-visible", panel.dataset.panel === name));
+    if (name === "library") renderLibrary();
+    if (name === "review") renderReview();
+  }
+
+  function updateAvailable() {
+    const group = $("group-select").value;
+    const count = selectedWords(group).length;
+    $("available-count").textContent = `可出題 ${count} 題`;
+    $("start-practice").disabled = count === 0;
+  }
+
+  function updateStreakBadge() {
+    const badge = $("streak-badge");
+    const streak = state.session ? state.session.streak : 0;
+    if (streak >= 2) {
+      badge.classList.add("is-active");
+      badge.querySelector(".streak-count").textContent = streak;
+    } else {
+      badge.classList.remove("is-active");
+    }
+  }
+
+  function startSession(words, setup) {
+    if (!words.length) { showToast("這個範圍還沒有單字，請先新增線索或換一個範圍。"); return; }
+    const count = Math.min(Number(setup.count) || 10, words.length);
+    state.lastWords = words.slice();
+    state.lastSetup = { group: setup.group || "all", mode: setup.mode || "context", count };
+    state.session = { items: shuffle(words).slice(0, count), index: 0, correct: 0, wrong: [], streak: 0, bestStreakThisRun: 0, setup: state.lastSetup, current: null };
+    $("quiz-card").classList.remove("is-hidden");
+    $("result-card").classList.add("is-hidden");
+    $("quiz-card").scrollIntoView({ behavior: "smooth", block: "start" });
+    updateStreakBadge();
+    renderQuestion();
+  }
+
+  function startPractice() {
+    startSession(selectedWords($("group-select").value), {
+      group: $("group-select").value,
+      mode: $("mode-select").value,
+      count: $("count-select").value,
+    });
+  }
+
+  function renderQuestion() {
+    const session = state.session;
+    if (!session || session.index >= session.items.length) { finishSession(); return; }
+    const word = session.items[session.index];
+    const question = questionFor(word);
+    session.current = question;
+    $("quiz-step").textContent = `第 ${session.index + 1} / ${session.items.length} 題`;
+    $("quiz-score").textContent = `答對 ${session.correct} 題`;
+    $("quiz-progress").style.width = `${(session.index / session.items.length) * 100}%`;
+    const useContext = question.stem && session.setup.mode === "context";
+    $("prompt-label").textContent = useContext ? "請找出句中單字的意思" : "請選出最適合的中文意思";
+    if (useContext) {
+      let prompt = escapeHtml(question.stem);
+      const token = escapeHtml(`{${word.word}}`);
+      if (prompt.includes(token)) prompt = prompt.replace(token, `<span class="blank-word">${escapeHtml(word.word)}</span>`);
+      else prompt = prompt.replace(escapeHtml(word.word), `<span class="blank-word">${escapeHtml(word.word)}</span>`);
+      $("quiz-prompt").innerHTML = prompt;
+    } else {
+      $("quiz-prompt").innerHTML = `<span class="single-word">${escapeHtml(word.word)}</span>`;
+    }
+    $("speak-question").dataset.text = question.stem && useContext ? question.stem.replace(/[{}]/g, "") : word.word;
+    $("clue-text").textContent = "";
+    $("feedback-box").className = "feedback-box is-hidden";
+    $("next-question").classList.add("is-hidden");
+    $("quiz-options").innerHTML = answerOptions(question, allWords()).map((meaning, index) =>
+      `<button class="option-button" type="button" data-meaning="${escapeHtml(meaning)}"><kbd>${index + 1}</kbd>${escapeHtml(meaning)}</button>`
+    ).join("");
+    $("quiz-options").querySelectorAll(".option-button").forEach((button) => button.addEventListener("click", () => answerQuestion(button.dataset.meaning)));
+  }
+
+  function updateProgress(word, correct) {
+    const previous = state.progress[word.id] || { attempts: 0, correct: 0, wrong: false };
+    state.progress[word.id] = { attempts: previous.attempts + 1, correct: previous.correct + (correct ? 1 : 0), wrong: !correct, lastSeen: Date.now() };
+    saveStorage(STORAGE_PROGRESS, state.progress);
+  }
+
+  function spawnConfetti() {
+    const colors = ["#147d78", "#f4c85b", "#eb806d", "#237d57", "#35c3ab"];
+    const layer = document.createElement("div");
+    layer.className = "confetti-layer";
+    for (let i = 0; i < 36; i += 1) {
+      const piece = document.createElement("span");
+      piece.className = "confetti-piece";
+      piece.style.left = `${Math.random() * 100}vw`;
+      piece.style.background = colors[i % colors.length];
+      piece.style.animationDuration = `${1.4 + Math.random() * 1.2}s`;
+      piece.style.animationDelay = `${Math.random() * 0.4}s`;
+      layer.appendChild(piece);
+    }
+    document.body.appendChild(layer);
+    setTimeout(() => layer.remove(), 2800);
+  }
+
+  function answerQuestion(selected) {
+    const session = state.session;
+    if (!session || !session.current) return;
+    const question = session.current;
+    const correct = selected === question.word.meaning;
+    const buttons = Array.from($("quiz-options").querySelectorAll(".option-button"));
+    buttons.forEach((button) => {
+      button.disabled = true;
+      if (button.dataset.meaning === question.word.meaning) button.classList.add("is-correct");
+      if (button.dataset.meaning === selected && !correct) button.classList.add("is-wrong");
+    });
+    if (correct) {
+      session.correct += 1;
+      session.streak += 1;
+      session.bestStreakThisRun = Math.max(session.bestStreakThisRun, session.streak);
+      if (session.streak > state.bestStreak) { state.bestStreak = session.streak; try { localStorage.setItem(STORAGE_BEST_STREAK, String(state.bestStreak)); } catch (_error) { /* ignore */ } }
+    } else {
+      session.streak = 0;
+      session.wrong.push(question.word);
+    }
+    updateStreakBadge();
+    updateProgress(question.word, correct);
+    const feedback = $("feedback-box");
+    feedback.className = `feedback-box ${correct ? "is-correct" : "is-wrong"}`;
+    $("feedback-icon").textContent = correct ? "✓" : "!";
+    $("feedback-title").textContent = correct ? (session.streak >= 3 ? `答對了！連續 ${session.streak} 題` : "答對了！") : `正確答案是「${question.word.meaning}」`;
+    $("feedback-text").textContent = correct ? "很棒，這個單字已經記住了。" : "再讀一次英文與中文意思，下一次會更穩。";
+    $("clue-text").textContent = question.clue;
+    $("next-question").classList.remove("is-hidden");
+    $("quiz-score").textContent = `答對 ${session.correct} 題`;
+    renderReview();
+  }
+
+  function finishSession() {
+    const session = state.session;
+    if (!session) return;
+    $("quiz-progress").style.width = "100%";
+    $("quiz-card").classList.add("is-hidden");
+    $("result-card").classList.remove("is-hidden");
+    $("result-card").scrollIntoView({ behavior: "smooth", block: "start" });
+    const total = session.items.length;
+    const percentage = Math.round((session.correct / total) * 100);
+    $("result-badge").textContent = `${percentage}%`;
+    $("result-title").textContent = percentage >= 80 ? "做得很好，線索都抓到了！" : "完成一回合，再把錯題看一次。";
+    $("result-summary").textContent = `這回合答對 ${session.correct} / ${total} 題，${session.wrong.length ? `有 ${session.wrong.length} 個單字已放入錯題複習。` : "全部答對，太厲害了！"}`;
+    $("result-streak").textContent = session.bestStreakThisRun >= 3 ? `本回合最高連續答對 ${session.bestStreakThisRun} 題・歷史最佳 ${state.bestStreak} 題` : "";
+    if (percentage === 100 && total >= 5 && !(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) spawnConfetti();
+  }
+
+  function renderLibrary() {
+    const query = $("library-search").value.trim().toLowerCase();
+    const filter = $("library-filter").value;
+    const words = allWords().filter((word) => (filter === "all" || word.group === filter) && (!query || `${word.word} ${word.meaning}`.toLowerCase().includes(query)));
+    $("library-summary").textContent = `顯示 ${words.length} / ${allWords().length} 個單字`;
+    if (!words.length) { $("word-list").innerHTML = '<div class="empty-state">找不到符合的單字，換個關鍵字試試看。</div>'; return; }
+    $("word-list").innerHTML = words.slice(0, 300).map((word) => {
+      const progress = state.progress[word.id] || {};
+      const needsReview = progress.wrong;
+      return `<div class="word-row"><strong>${escapeHtml(word.word)}</strong><span>${escapeHtml(word.meaning)}</span><span class="unit-tag">${escapeHtml(GROUP_LABELS[word.group] || word.group || "自訂")}</span><span class="status-tag ${needsReview ? "needs-review" : ""}">${needsReview ? "再看一次" : progress.correct ? "已練習" : "未練習"}</span><button class="icon-button speak-word" type="button" data-word="${escapeHtml(word.word)}" aria-label="播放 ${escapeHtml(word.word)} 發音">🔊</button></div>`;
+    }).join("");
+    if (words.length > 300) $("word-list").insertAdjacentHTML("beforeend", '<div class="empty-state">結果很多，請用搜尋或篩選縮小範圍。</div>');
+    $("word-list").querySelectorAll(".speak-word").forEach((button) => button.addEventListener("click", () => speak(button.dataset.word, button)));
+  }
+
+  function reviewWords() { return allWords().filter((word) => state.progress[word.id] && state.progress[word.id].wrong); }
+
+  function renderReview() {
+    const words = reviewWords();
+    $("wrong-count").textContent = String(words.length);
+    if (!words.length) { $("review-list").innerHTML = '<div class="empty-state card">目前沒有錯題。開始一回合練習，系統會自動幫你追蹤。</div>'; return; }
+    $("review-list").innerHTML = words.map((word) => `<article class="review-item"><div class="review-item-head"><strong>${escapeHtml(word.word)}</strong><button class="icon-button speak-word" type="button" data-word="${escapeHtml(word.word)}" aria-label="播放 ${escapeHtml(word.word)} 發音">🔊</button></div><span>${escapeHtml(word.meaning)}</span><div class="review-meta"><span>${escapeHtml(GROUP_LABELS[word.group] || "自訂")}</span><span>再練一次</span></div></article>`).join("");
+    $("review-list").querySelectorAll(".speak-word").forEach((button) => button.addEventListener("click", () => speak(button.dataset.word, button)));
+  }
+
+  function openAdd() { $("add-modal").classList.remove("is-hidden"); $("add-modal").setAttribute("aria-hidden", "false"); $("add-form").elements.word.focus(); }
+  function closeAdd() { $("add-modal").classList.add("is-hidden"); $("add-modal").setAttribute("aria-hidden", "true"); $("add-form").reset(); }
+
+  function addWord(event) {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const word = String(data.get("word") || "").trim();
+    const meaning = String(data.get("meaning") || "").trim();
+    if (!word || !meaning) return;
+    const entry = { id: `custom-${Date.now()}`, word, meaning, group: "custom", unit: "自訂", source: 0, stem: String(data.get("stem") || "").trim(), clue: String(data.get("clue") || "").trim(), distractors: [] };
+    state.customWords.unshift(entry);
+    saveStorage(STORAGE_WORDS, state.customWords);
+    closeAdd();
+    updateAvailable();
+    renderLibrary();
+    showToast(`已加入「${word}」，現在可以開始練習。`);
+  }
+
+  let toastTimer;
+  function showToast(message) {
+    $("toast").textContent = message;
+    $("toast").classList.remove("is-hidden");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => $("toast").classList.add("is-hidden"), 3200);
+  }
+
+  function handleKeydown(event) {
+    const tag = (event.target && event.target.tagName) || "";
+    if (["INPUT", "TEXTAREA", "SELECT"].includes(tag)) return;
+    if (event.key === "Escape" && !$("add-modal").classList.contains("is-hidden")) { closeAdd(); return; }
+    if (!state.session) return;
+    if (!$("quiz-card").classList.contains("is-hidden")) {
+      if (/^[1-4]$/.test(event.key)) {
+        const buttons = $("quiz-options").querySelectorAll(".option-button");
+        const target = buttons[Number(event.key) - 1];
+        if (target && !target.disabled) target.click();
+      } else if (event.key === "Enter" && !$("next-question").classList.contains("is-hidden")) {
+        $("next-question").click();
+      }
+    }
+  }
+
+  document.querySelectorAll("[data-tab]").forEach((button) => button.addEventListener("click", () => setTab(button.dataset.tab)));
+  $("open-add").addEventListener("click", openAdd);
+  $("close-add").addEventListener("click", closeAdd);
+  $("cancel-add").addEventListener("click", closeAdd);
+  $("add-modal").addEventListener("click", (event) => { if (event.target === $("add-modal")) closeAdd(); });
+  $("add-form").addEventListener("submit", addWord);
+  $("group-select").addEventListener("change", updateAvailable);
+  $("start-practice").addEventListener("click", startPractice);
+  $("next-question").addEventListener("click", () => { state.session.index += 1; renderQuestion(); });
+  $("retry-practice").addEventListener("click", () => startSession(state.lastSetup.group === "review" ? reviewWords() : selectedWords(state.lastSetup.group), state.lastSetup));
+  $("result-review").addEventListener("click", () => setTab("review"));
+  $("theme-toggle").addEventListener("click", toggleTheme);
+  $("speak-question").addEventListener("click", (event) => speak(event.currentTarget.dataset.text, event.currentTarget));
+  $("review-start").addEventListener("click", () => {
+    const words = reviewWords();
+    if (!words.length) { showToast("目前沒有錯題可以複習。先開始一回合練習吧！"); return; }
+    setTab("practice");
+    startSession(words, { group: "review", mode: "context", count: words.length });
+  });
+  $("library-search").addEventListener("input", renderLibrary);
+  $("library-filter").addEventListener("change", renderLibrary);
+  document.addEventListener("keydown", handleKeydown);
+
+  applyTheme(localStorage.getItem(STORAGE_THEME));
+  updateAvailable();
+  renderLibrary();
+  renderReview();
+}());
+</script>
+  </body>
+</html>
