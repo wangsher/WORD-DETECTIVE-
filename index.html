@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>英文詞彙小偵探 - 4選1語意與句型測驗專區</title>
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-light: #e0f2fe;
+      --primary-dark: #0369a1;
+      --secondary: #f59e0b;
+      --accent: #10b981;
+      --danger: #ef4444;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #cbd5e1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding-bottom: 60px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: white;
+      padding: 22px 16px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
+    }
+
+    header h1 {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    header p {
+      font-size: 13px;
+      opacity: 0.9;
+      margin-top: 4px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background: white;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      overflow-x: auto;
+    }
+
+    .nav-btn {
+      padding: 14px 20px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      background-color: var(--primary-light);
+    }
+
+    main {
+      max-width: 960px;
+      margin: 20px auto;
+      padding: 0 16px;
+    }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: white;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+
+    .select-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    select, input, textarea {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 14px;
+      outline: none;
+      background: white;
+    }
+
+    select:focus, input:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-light);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s;
+    }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-secondary { background: #64748b; color: white; }
+    .btn-secondary:hover { background: #475569; }
+    .btn-danger { background: var(--danger); color: white; padding: 4px 8px; font-size: 12px; }
+    .btn-danger:hover { background: #dc2626; }
+    
+    .btn-audio {
+      background: var(--primary-light);
+      color: var(--primary);
+      border: 1px solid #bae6fd;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+    }
+    .btn-audio:hover { background: #bae6fd; }
+
+    .word-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .word-card {
+      background: white;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .word-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .word-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .word-meaning {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin: 8px 0;
+    }
+
+    .word-sentence {
+      font-size: 13px;
+      color: var(--text-muted);
+      background: #f1f5f9;
+      padding: 8px 10px;
+      border-radius: 8px;
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+
+    .badge-unit {
+      font-size: 11px;
+      background: #fef3c7;
+      color: #b45309;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .badge-grade {
+      font-size: 11px;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-right: 4px;
+    }
+
+    /* Flashcard Style */
+    .flashcard-wrapper {
+      perspective: 1000px;
+      max-width: 480px;
+      margin: 30px auto;
+    }
+
+    .flashcard {
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 24px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      cursor: pointer;
+      position: relative;
+    }
+
+    /* 4 選 1 測驗容器 */
+    .quiz-container {
+      background: white;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      padding: 24px;
+      max-width: 760px;
+      margin: 10px auto;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+    }
+
+    .sentence-box {
+      background: #f8fafc;
+      border: 2px dashed #94a3b8;
+      border-radius: 14px;
+      padding: 22px 18px;
+      margin: 16px 0;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.6;
+      color: #0f172a;
+      text-align: center;
+    }
+
+    .sentence-blank {
+      color: var(--primary);
+      text-decoration: underline;
+      font-weight: 800;
+      padding: 0 6px;
+    }
+
+    .quiz-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .quiz-options {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .quiz-opt-btn {
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 2px solid var(--border);
+      background: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .quiz-opt-btn:hover { border-color: var(--primary); background: var(--primary-light); }
+    .quiz-opt-btn.correct { background: #dcfce7 !important; border-color: #22c55e !important; color: #15803d !important; }
+    .quiz-opt-btn.wrong { background: #fee2e2 !important; border-color: #ef4444 !important; color: #b91c1c !important; }
+
+    /* 管理面板與表格 */
+    .form-panel {
+      background: white;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 24px;
+      max-width: 780px;
+      margin: 0 auto 30px auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .form-item {
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .word-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      font-size: 14px;
+    }
+
+    .word-table th, .word-table td {
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      text-align: left;
+    }
+
+    .word-table th {
+      background: #f1f5f9;
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>英文詞彙小偵探</h1>
+    <p>國中英語 G7 / G8 核心單字・4選1語意與句型測驗專區</p>
+  </header>
+
+  <nav>
+    <button class="nav-btn" onclick="switchTab('vocab')">📚 單字庫</button>
+    <button class="nav-btn" onclick="switchTab('card')">🃏 翻卡記憶</button>
+    <button class="nav-btn active" onclick="switchTab('quiz')">🕵️ 偵探測驗</button>
+    <button class="nav-btn" onclick="switchTab('g8')">⚙️ G8 / 題庫管理</button>
+  </nav>
+
+  <main>
+    <!-- 單字庫 Panel -->
+    <section id="panel-vocab" style="display:none;">
+      <div class="filter-bar">
+        <div class="select-group">
+          <label><strong>冊別：</strong></label>
+          <select id="gradeSelect" onchange="onGradeChange()">
+            <option value="ALL">全部冊別</option>
+            <option value="G8" selected>G8 (八年級)</option>
+            <option value="G7 A">G7 A (七年級上)</option>
+            <option value="G7 B">G7 B (七年級下)</option>
+          </select>
+
+          <label><strong>單元：</strong></label>
+          <select id="unitSelect" onchange="renderVocabGrid()"></select>
+
+          <label><strong>語意搜尋：</strong></label>
+          <input type="text" id="meaningSearch" placeholder="搜尋中文語意或單字..." oninput="renderVocabGrid()" style="min-width: 180px;">
+        </div>
+        <span id="wordCountBadge" style="font-size: 13px; color: var(--text-muted);">共 0 個單字</span>
+      </div>
+      <div id="vocabGrid" class="word-grid"></div>
+    </section>
+
+    <!-- 翻卡練習 Panel -->
+    <section id="panel-card" style="display:none;">
+      <div class="filter-bar">
+        <div class="select-group">
+          <label><strong>冊別：</strong></label>
+          <select id="cardGradeSelect" onchange="onCardGradeChange()">
+            <option value="ALL">全部冊別</option>
+            <option value="G8" selected>G8 (八年級)</option>
+            <option value="G7 A">G7 A (七上)</option>
+            <option value="G7 B">G7 B (七下)</option>
+          </select>
+          <label><strong>單元：</strong></label>
+          <select id="cardUnitSelect" onchange="resetCard()"></select>
+        </div>
+        <span id="cardProgress" style="font-size: 13px; color: var(--text-muted);">1 / 1</span>
+      </div>
+      <div class="flashcard-wrapper">
+        <div class="flashcard" onclick="flipCard()">
+          <div style="position: absolute; top: 16px; left: 16px;">
+            <span class="badge-grade" id="cardGradeBadge">G8</span>
+            <span class="badge-unit" id="cardUnitBadge">A Unit 1</span>
+          </div>
+          <div id="cardFront">
+            <h2 id="cardWord" style="font-size: 34px; color: var(--primary-dark); font-weight: 800;">Word</h2>
+            <button class="btn btn-audio" style="margin-top: 16px;" onclick="event.stopPropagation(); playCurrentCardAudio();">🔊 發音</button>
+            <p style="font-size: 12px; color: #94a3b8; margin-top: 24px;">點擊卡片查看句型與語意</p>
+          </div>
+          <div id="cardBack" style="display:none;">
+            <h3 id="cardMeaning" style="font-size: 22px; font-weight: 700; color: #0f172a;">釋義</h3>
+            <p id="cardSentence" class="word-sentence" style="margin-top: 14px; text-align: left;"></p>
+            <p style="font-size: 12px; color: #94a3b8; margin-top: 20px;">點擊翻回正面</p>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: center; gap: 16px; margin-top: 20px;">
+          <button class="btn btn-primary" onclick="prevCard()">上一張</button>
+          <button class="btn btn-primary" onclick="nextCard()">下一張</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🕵️ 偵探測驗 Panel -->
+    <section id="panel-quiz">
+      <div class="quiz-container">
+        <!-- 下拉選單控制列 -->
+        <div class="filter-bar" style="margin-bottom: 16px;">
+          <div class="select-group">
+            <label><strong>測驗題型：</strong></label>
+            <select id="quizModeSelect" onchange="startQuiz()">
+              <option value="sentenceClues" selected>🎯 句型語意挑單字 (文意字彙 4選1)</option>
+              <option value="meaningToWord">💡 中文語意挑單字 (看語意 4選1)</option>
+              <option value="wordToMeaning">🔊 英文聽音選中文 (聽力辨義 4選1)</option>
+            </select>
+
+            <label><strong>冊別：</strong></label>
+            <select id="quizGradeSelect" onchange="onQuizGradeChange()">
+              <option value="ALL">全部冊別</option>
+              <option value="G8" selected>G8 (八年級)</option>
+              <option value="G7 A">G7 A (七上)</option>
+              <option value="G7 B">G7 B (七下)</option>
+            </select>
+
+            <label><strong>單元：</strong></label>
+            <select id="quizUnitSelect" onchange="startQuiz()">
+              <option value="ALL">全部 A Unit</option>
+            </select>
+          </div>
+          <span id="quizScore" style="font-weight: 700; color: var(--secondary); font-size: 16px;">得分: 0</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <div>
+            <span class="badge-grade" id="quizGradeBadge">G8</span>
+            <span class="badge-unit" id="quizUnitBadge">A Unit 1</span>
+          </div>
+          <span id="quizInstruction" style="font-size: 13px; color: var(--text-muted); font-weight: 600;"></span>
+        </div>
+
+        <!-- 題幹區塊 -->
+        <div class="sentence-box" id="quizQuestionBox">題目載入中...</div>
+
+        <!-- 句型提示按鈕（僅在句型題型時啟用） -->
+        <div id="hintContainer" style="text-align: center; margin-bottom: 14px;">
+          <button class="btn btn-audio" style="font-size: 12px; padding: 4px 10px;" onclick="toggleMeaningHint()">💡 顯示/隱藏中文語意提示</button>
+          <p id="quizMeaningHint" style="font-size: 14px; color: var(--secondary); font-weight: bold; margin-top: 8px; display: none;"></p>
+        </div>
+
+        <!-- 題目聽力發音按鈕（僅在英選中題型時啟用） -->
+        <div id="audioPlayContainer" style="text-align: center; margin-bottom: 14px; display: none;">
+          <button class="btn btn-audio" onclick="playQuizWordAudio()">🔊 再聽一次發音</button>
+        </div>
+
+        <!-- 4 選 1 選項區塊 -->
+        <div id="quizOptions" class="quiz-options"></div>
+
+        <div style="margin-top: 22px; display: flex; justify-content: space-between; align-items: center;">
+          <span id="quizFeedback" style="font-weight: bold; font-size: 15px;"></span>
+          <button class="btn btn-primary" onclick="nextQuizQuestion()">下一題 ➔</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⚙️ G8 / 題庫管理 Panel (提供單筆擴充、批次匯入、清單管理與匯出備份) -->
+    <section id="panel-g8" style="display:none;">
+      <!-- 區塊一：單筆新增 -->
+      <div class="form-panel">
+        <h2 style="font-size: 18px; font-weight: 700; margin-bottom: 14px; color: var(--primary-dark);">➕ 單筆新增單字與句型</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-item">
+            <label><strong>選擇冊別：</strong></label>
+            <select id="newGrade">
+              <option value="G8" selected>G8 (八年級)</option>
+              <option value="G7 A">G7 A (七年級上)</option>
+              <option value="G7 B">G7 B (七年級下)</option>
+            </select>
+          </div>
+          <div class="form-item">
+            <label><strong>單元 (A Unit)：</strong></label>
+            <select id="newUnit">
+              <option value="A Unit 1">A Unit 1</option>
+              <option value="A Unit 2">A Unit 2</option>
+              <option value="A Unit 3">A Unit 3</option>
+              <option value="A Unit 4">A Unit 4</option>
+              <option value="A Unit 5">A Unit 5</option>
+              <option value="A Unit 6">A Unit 6</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-item">
+          <label><strong>英文單字：</strong></label>
+          <input type="text" id="newWord" placeholder="例如：celebrate">
+        </div>
+
+        <div class="form-item">
+          <label><strong>中文語意：</strong></label>
+          <input type="text" id="newMeaning" placeholder="例如：慶祝">
+        </div>
+
+        <div class="form-item">
+          <label><strong>情境英文句型 (單字處請以 [____] 挖空)：</strong></label>
+          <textarea id="newSentence" rows="2" placeholder="例如：We had a party to [____] his birthday."></textarea>
+          <span style="font-size: 12px; color: var(--text-muted);">* 若未填寫挖空，系統會自動在句中將該單字代換為 [____]。</span>
+        </div>
+
+        <button class="btn btn-primary" style="width: 100%; padding: 12px;" onclick="addNewWordSingle()">儲存加入題庫</button>
+      </div>
+
+      <!-- 區塊二：多筆批次文字匯入 -->
+      <div class="form-panel">
+        <h2 style="font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--primary-dark);">📑 批次文字匯入（可一次貼上多行）</h2>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">格式說明：一行一個單字，欄位用逗號 <code>,</code> 分隔。<br>格式範例：<code>單字, 中文語意, 英文情境句型(選填)</code></p>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+          <div>
+            <label style="font-size: 13px;"><strong>批次冊別：</strong></label>
+            <select id="batchGrade">
+              <option value="G8" selected>G8 (八年級)</option>
+              <option value="G7 A">G7 A</option>
+              <option value="G7 B">G7 B</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 13px;"><strong>批次單元：</strong></label>
+            <select id="batchUnit">
+              <option value="A Unit 1">A Unit 1</option>
+              <option value="A Unit 2">A Unit 2</option>
+              <option value="A Unit 3">A Unit 3</option>
+              <option value="A Unit 4">A Unit 4</option>
+              <option value="A Unit 5">A Unit 5</option>
+              <option value="A Unit 6">A Unit 6</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-item">
+          <textarea id="batchInput" rows="4" placeholder="vacation, 假期, We had a great [____] in summer.&#10;typhoon, 颱風, A strong [____] is approaching."></textarea>
+        </div>
+        <button class="btn btn-primary" style="width: 100%; padding: 10px;" onclick="addBatchWords()">批次快速匯入</button>
+      </div>
+
+      <!-- 區塊三：已存題庫管理清單與資料備份 -->
+      <div class="form-panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <h2 style="font-size: 18px; font-weight: 700; color: var(--primary-dark);">📋 目前題庫管理與防遺失備份</h2>
+          <div style="display: flex; gap: 6px;">
+            <button class="btn btn-secondary" style="font-size: 12px;" onclick="exportDatabaseJSON()">💾 匯出備份文字</button>
+            <button class="btn btn-secondary" style="font-size: 12px;" onclick="importDatabaseJSON()">📥 還原/匯入備份</button>
+            <button class="btn btn-danger" onclick="resetToDefaultData()">🔄 重設回預設值</button>
+          </div>
+        </div>
+
+        <div style="overflow-x: auto; max-height: 400px;">
+          <table class="word-table">
+            <thead>
+              <tr>
+                <th>冊別</th>
+                <th>單元</th>
+                <th>單字</th>
+                <th>中文語意</th>
+                <th>句型預覽</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="managementTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // 預載完整基礎題庫
+    const COMPLETE_DATABASE = [
+      // ====== G8 A Unit 1 ======
+      { grade: "G8", unit: "A Unit 1", word: "vacation", meaning: "假期", sentence: "We went to Taitung and had a great summer [____]." },
+      { grade: "G8", unit: "A Unit 1", word: "summer", meaning: "夏天", sentence: "July and August are in the [____] in Taiwan." },
+      { grade: "G8", unit: "A Unit 1", word: "camp", meaning: "營隊", sentence: "My brother joined a fun basketball [____] last week." },
+      { grade: "G8", unit: "A Unit 1", word: "visit", meaning: "拜訪；參觀", sentence: "We plan to [____] our grandparents in Kaohsiung this Sunday." },
+      { grade: "G8", unit: "A Unit 1", word: "trip", meaning: "旅行", sentence: "Have a safe [____] to Kenting and enjoy the beach!" },
+      { grade: "G8", unit: "A Unit 1", word: "wonderful", meaning: "極好的；精彩的", sentence: "The concert last night was so [____]; everyone cheered!" },
+      { grade: "G8", unit: "A Unit 1", word: "delicious", meaning: "美味的", sentence: "The beef noodles at this night market are very [____]." },
+      { grade: "G8", unit: "A Unit 1", word: "experience", meaning: "經驗；體驗", sentence: "Traveling abroad by myself was an amazing [____]." },
+      { grade: "G8", unit: "A Unit 1", word: "weather", meaning: "天氣", sentence: "How is the [____] today? It's sunny and warm." },
+      { grade: "G8", unit: "A Unit 1", word: "typhoon", meaning: "颱風", sentence: "A strong [____] is coming, so remember to close the windows." },
+      { grade: "G8", unit: "A Unit 1", word: "sunny", meaning: "晴朗的", sentence: "It is a [____] morning; let's go for a picnic." },
+      { grade: "G8", unit: "A Unit 1", word: "rainy", meaning: "下雨的", sentence: "Take an umbrella with you because today is [____]." },
+      { grade: "G8", unit: "A Unit 1", word: "windy", meaning: "風大的", sentence: "It's too [____] to fly a kite by the river." },
+      { grade: "G8", unit: "A Unit 1", word: "season", meaning: "季節", sentence: "Spring is my favorite [____] because flowers bloom." },
+
+      // ====== G8 A Unit 2 ======
+      { grade: "G8", unit: "A Unit 2", word: "send", meaning: "寄送", sentence: "Please [____] me a postcard when you arrive in London." },
+      { grade: "G8", unit: "A Unit 2", word: "postcard", meaning: "明信片", sentence: "I wrote a message on the back of the [____]." },
+      { grade: "G8", unit: "A Unit 2", word: "gift", meaning: "禮物", sentence: "Dad prepared a surprise birthday [____] for Mom." },
+      { grade: "G8", unit: "A Unit 2", word: "present", meaning: "禮物", sentence: "Opening a Christmas [____] always brings joy." },
+      { grade: "G8", unit: "A Unit 2", word: "celebrate", meaning: "慶祝", sentence: "How does your family [____] the Lunar New Year?" },
+      { grade: "G8", unit: "A Unit 2", word: "spend", meaning: "花費(時間/金錢)", sentence: "He likes to [____] two hours reading novels every night." },
+      { grade: "G8", unit: "A Unit 2", word: "expensive", meaning: "昂貴的", sentence: "The smartphone is too [____]; I cannot afford it." },
+      { grade: "G8", unit: "A Unit 2", word: "cheap", meaning: "便宜的", sentence: "These notebooks are on sale and very [____]." },
+      { grade: "G8", unit: "A Unit 2", word: "borrow", meaning: "借入", sentence: "Can I [____] your eraser? I forgot mine at home." },
+      { grade: "G8", unit: "A Unit 2", word: "lend", meaning: "借出", sentence: "Could you please [____] me your umbrella for a while?" },
+
+      // ====== G7 A ======
+      { grade: "G7 A", unit: "A Unit 1", word: "classmate", meaning: "同學", sentence: "Sandy and I study together; she is my [____]." },
+      { grade: "G7 A", unit: "A Unit 1", word: "handsome", meaning: "英俊的", sentence: "The new English teacher is tall and [____]." },
+      { grade: "G7 A", unit: "A Unit 1", word: "family", meaning: "家庭；家人", sentence: "I love my [____]; we always help each other." },
+      { grade: "G7 A", unit: "A Unit 2", word: "kitchen", meaning: "廚房", sentence: "Mom is making vegetable soup in the [____]." },
+      { grade: "G7 A", unit: "A Unit 2", word: "living room", meaning: "客廳", sentence: "We are watching TV together in the [____]." },
+      { grade: "G7 A", unit: "A Unit 2", word: "bedroom", meaning: "臥室", sentence: "My little sister is sleeping in her [____]." },
+      { grade: "G7 A", unit: "A Unit 3", word: "museum", meaning: "博物館", sentence: "Please be quiet and do not run in the [____]." },
+      { grade: "G7 A", unit: "A Unit 3", word: "follow", meaning: "遵守；跟隨", sentence: "Students must [____] the classroom rules." },
+      { grade: "G7 A", unit: "A Unit 4", word: "weekend", meaning: "週末", sentence: "What are your plans for the coming [____]?" },
+      { grade: "G7 A", unit: "A Unit 4", word: "popular", meaning: "受歡迎的", sentence: "This pop music band is very [____] among teenagers." },
+      { grade: "G7 A", unit: "A Unit 5", word: "Thanksgiving", meaning: "感恩節", sentence: "People in America eat turkey on [____] Day." },
+      { grade: "G7 A", unit: "A Unit 6", word: "elephant", meaning: "大象", sentence: "An [____] has a very long nose called a trunk." },
+
+      // ====== G7 B ======
+      { grade: "G7 B", unit: "A Unit 1", word: "practice", meaning: "練習", sentence: "If you want to play piano well, you must [____] every day." },
+      { grade: "G7 B", unit: "A Unit 2", word: "exercise", meaning: "運動", sentence: "Jogging in the morning is great [____] for health." },
+      { grade: "G7 B", unit: "A Unit 3", word: "thirsty", meaning: "口渴的", sentence: "After running five miles, they felt very [____]." },
+      { grade: "G7 B", unit: "A Unit 3", word: "hamburger", meaning: "漢堡", sentence: "He ordered a beef [____] and a cup of green tea." },
+      { grade: "G7 B", unit: "A Unit 4", word: "because", meaning: "因為", sentence: "She went to bed early [____] she was very tired." },
+      { grade: "G7 B", unit: "A Unit 5", word: "rainforest", meaning: "雨林", sentence: "Many kinds of rare animals live in the tropical [____]." },
+      { grade: "G7 B", unit: "A Unit 6", word: "airport", meaning: "機場", sentence: "We took a taxi to the [____] to catch the flight." }
+    ];
+
+    const STORAGE_KEY = 'word_detective_dynamic_store_v1';
+    let wordDatabase = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if (!wordDatabase || wordDatabase.length === 0) {
+      wordDatabase = COMPLETE_DATABASE;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(wordDatabase));
+    }
+
+    function saveDatabase() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(wordDatabase));
+      refreshAllViews();
+    }
+
+    // ==========================================
+    // 雙軌發音引擎 (Android Chrome + iOS 兼容)
+    // ==========================================
+    const audioPlayer = new Audio();
+    let isUnlocked = false;
+    let activeUtterance = null;
+
+    function unlockAudioContext() {
+      if (isUnlocked) return;
+      audioPlayer.src = "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
+      audioPlayer.play().then(() => { isUnlocked = true; }).catch(() => {});
+    }
+    document.addEventListener('touchstart', unlockAudioContext, { once: true });
+    document.addEventListener('click', unlockAudioContext, { once: true });
+
+    function playAudio(text) {
+      if (!text) return;
+      const clean = text.trim();
+      const onlineAudioUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(clean)}&type=2`;
+      audioPlayer.pause();
+      audioPlayer.src = onlineAudioUrl;
+
+      const playPromise = audioPlayer.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => playOfflineSpeech(clean));
+      }
+    }
+
+    function playOfflineSpeech(cleanText) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      setTimeout(() => {
+        activeUtterance = new SpeechSynthesisUtterance(cleanText);
+        activeUtterance.lang = 'en-US';
+        activeUtterance.rate = 0.85;
+        const voices = window.speechSynthesis.getVoices();
+        const enVoice = voices.find(v => v.lang === 'en-US' || v.lang.startsWith('en'));
+        if (enVoice) activeUtterance.voice = enVoice;
+        window.speechSynthesis.speak(activeUtterance);
+      }, 50);
+    }
+
+    if ('speechSynthesis' in window && window.speechSynthesis.onvoiceschanged !== undefined) {
+      window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+    }
+
+    // 分頁切換
+    function switchTab(tab) {
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      document.getElementById('panel-vocab').style.display = tab === 'vocab' ? 'block' : 'none';
+      document.getElementById('panel-card').style.display = tab === 'card' ? 'block' : 'none';
+      document.getElementById('panel-quiz').style.display = tab === 'quiz' ? 'block' : 'none';
+      document.getElementById('panel-g8').style.display = tab === 'g8' ? 'block' : 'none';
+
+      if (tab === 'vocab') renderVocabGrid();
+      if (tab === 'card') resetCard();
+      if (tab === 'quiz') startQuiz();
+      if (tab === 'g8') renderManagementTable();
+    }
+
+    // 選單聯動
+    function updateUnitOptions(gradeSelectId, unitSelectId) {
+      const grade = document.getElementById(gradeSelectId).value;
+      const unitSelect = document.getElementById(unitSelectId);
+      
+      const filtered = grade === 'ALL' 
+        ? wordDatabase 
+        : wordDatabase.filter(w => w.grade === grade);
+
+      const units = Array.from(new Set(filtered.map(w => w.unit))).sort();
+      unitSelect.innerHTML = '<option value="ALL">全部 A Unit</option>' +
+        units.map(u => `<option value="${u}">${u}</option>`).join('');
+    }
+
+    function onGradeChange() {
+      updateUnitOptions('gradeSelect', 'unitSelect');
+      renderVocabGrid();
+    }
+
+    function onCardGradeChange() {
+      updateUnitOptions('cardGradeSelect', 'cardUnitSelect');
+      resetCard();
+    }
+
+    function onQuizGradeChange() {
+      updateUnitOptions('quizGradeSelect', 'quizUnitSelect');
+      startQuiz();
+    }
+
+    // 單字庫渲染
+    function renderVocabGrid() {
+      const grade = document.getElementById('gradeSelect').value;
+      const unit = document.getElementById('unitSelect').value;
+      const search = (document.getElementById('meaningSearch').value || '').trim().toLowerCase();
+      const container = document.getElementById('vocabGrid');
+
+      let list = wordDatabase;
+      if (grade !== 'ALL') list = list.filter(w => w.grade === grade);
+      if (unit && unit !== 'ALL') list = list.filter(w => w.unit === unit);
+
+      if (search) {
+        list = list.filter(w => 
+          w.meaning.toLowerCase().includes(search) || 
+          w.word.toLowerCase().includes(search) ||
+          (w.sentence && w.sentence.toLowerCase().includes(search))
+        );
+      }
+
+      document.getElementById('wordCountBadge').innerText = `共 ${list.length} 個單字`;
+
+      if (list.length === 0) {
+        container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">查無符合的單字。</div>`;
+        return;
+      }
+
+      container.innerHTML = list.map(item => `
+        <div class="word-card">
+          <div>
+            <div class="card-top">
+              <div>
+                <span class="badge-grade">${item.grade}</span>
+                <span class="badge-unit">${item.unit}</span>
+              </div>
+              <button class="btn btn-audio" onclick="playAudio('${item.word}')">🔊 發音</button>
+            </div>
+            <div class="word-title">${item.word}</div>
+            <div class="word-meaning">${item.meaning}</div>
+            ${item.sentence ? `<div class="word-sentence"><strong>例句：</strong>${item.sentence.replace('[____]', `<u>${item.word}</u>`)}</div>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 翻卡練習
+    let cardList = [];
+    let currentCardIdx = 0;
+    let isFlipped = false;
+
+    function resetCard() {
+      const grade = document.getElementById('cardGradeSelect').value;
+      const unit = document.getElementById('cardUnitSelect').value;
+
+      let list = wordDatabase;
+      if (grade !== 'ALL') list = list.filter(w => w.grade === grade);
+      if (unit && unit !== 'ALL') list = list.filter(w => w.unit === unit);
+
+      cardList = list;
+      currentCardIdx = 0;
+      isFlipped = false;
+      renderCard();
+    }
+
+    function renderCard() {
+      if (cardList.length === 0) return;
+      const card = cardList[currentCardIdx];
+      document.getElementById('cardProgress').innerText = `${currentCardIdx + 1} / ${cardList.length}`;
+      document.getElementById('cardGradeBadge').innerText = card.grade;
+      document.getElementById('cardUnitBadge').innerText = card.unit;
+      document.getElementById('cardWord').innerText = card.word;
+      document.getElementById('cardMeaning').innerText = card.meaning;
+      document.getElementById('cardSentence').innerHTML = card.sentence 
+        ? `<strong>例句：</strong>${card.sentence.replace('[____]', `<u>${card.word}</u>`)}` 
+        : '無例句';
+
+      document.getElementById('cardFront').style.display = isFlipped ? 'none' : 'block';
+      document.getElementById('cardBack').style.display = isFlipped ? 'block' : 'none';
+    }
+
+    function flipCard() {
+      isFlipped = !isFlipped;
+      renderCard();
+    }
+
+    function nextCard() {
+      if (currentCardIdx < cardList.length - 1) {
+        currentCardIdx++;
+        isFlipped = false;
+        renderCard();
+      }
+    }
+
+    function prevCard() {
+      if (currentCardIdx > 0) {
+        currentCardIdx--;
+        isFlipped = false;
+        renderCard();
+      }
+    }
+
+    function playCurrentCardAudio() {
+      if (cardList[currentCardIdx]) playAudio(cardList[currentCardIdx].word);
+    }
+
+    // ==========================================
+    // 🕵️ 4 選 1 偵探測驗核心
+    // ==========================================
+    let quizTarget = null;
+    let quizScore = 0;
+
+    function startQuiz() {
+      quizScore = 0;
+      document.getElementById('quizScore').innerText = `得分: ${quizScore}`;
+      nextQuizQuestion();
+    }
+
+    function toggleMeaningHint() {
+      const hintEl = document.getElementById('quizMeaningHint');
+      hintEl.style.display = hintEl.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function playQuizWordAudio() {
+      if (quizTarget) playAudio(quizTarget.word);
+    }
+
+    function nextQuizQuestion() {
+      if (wordDatabase.length === 0) return;
+
+      const mode = document.getElementById('quizModeSelect').value;
+      const selectedGrade = document.getElementById('quizGradeSelect').value;
+      const selectedUnit = document.getElementById('quizUnitSelect').value;
+
+      let pool = wordDatabase;
+      if (selectedGrade !== 'ALL') pool = pool.filter(w => w.grade === selectedGrade);
+      if (selectedUnit && selectedUnit !== 'ALL') pool = pool.filter(w => w.unit === selectedUnit);
+
+      if (pool.length === 0) pool = wordDatabase;
+
+      quizTarget = pool[Math.floor(Math.random() * pool.length)];
+
+      document.getElementById('quizGradeBadge').innerText = quizTarget.grade;
+      document.getElementById('quizUnitBadge').innerText = quizTarget.unit;
+      document.getElementById('quizFeedback').innerText = '';
+
+      const questionBox = document.getElementById('quizQuestionBox');
+      const hintContainer = document.getElementById('hintContainer');
+      const hintEl = document.getElementById('quizMeaningHint');
+      const audioContainer = document.getElementById('audioPlayContainer');
+      const instructionEl = document.getElementById('quizInstruction');
+      const optsContainer = document.getElementById('quizOptions');
+
+      if (mode === 'sentenceClues') {
+        instructionEl.innerText = "依前後文句型選出最適當單字：";
+        hintContainer.style.display = "block";
+        audioContainer.style.display = "none";
+        hintEl.innerText = `💡 句意中文提示：${quizTarget.meaning}`;
+        hintEl.style.display = 'none';
+
+        const rawSentence = quizTarget.sentence || `Look at the context and choose [____].`;
+        questionBox.innerHTML = rawSentence.replace('[____]', '<span class="sentence-blank"> [ _______ ] </span>');
+
+        const options = [quizTarget.word];
+        while (options.length < 4) {
+          const randWord = wordDatabase[Math.floor(Math.random() * wordDatabase.length)].word;
+          if (!options.includes(randWord)) options.push(randWord);
+        }
+        options.sort(() => Math.random() - 0.5);
+
+        optsContainer.innerHTML = options.map((opt, idx) => `
+          <button class="quiz-opt-btn" onclick="checkChoiceAnswer(this, '${opt}', '${quizTarget.word}')">
+            <span><strong>(${String.fromCharCode(65 + idx)})</strong> ${opt}</span>
+            <span style="font-size: 13px; color: var(--text-muted);">🔊</span>
+          </button>
+        `).join('');
+
+      } else if (mode === 'meaningToWord') {
+        instructionEl.innerText = "請選出對應上方中文語意的英文單字：";
+        hintContainer.style.display = "none";
+        audioContainer.style.display = "none";
+
+        questionBox.innerHTML = `<span style="font-size: 26px; color: var(--primary-dark); font-weight:800;">中文語意：${quizTarget.meaning}</span>`;
+
+        const options = [quizTarget.word];
+        while (options.length < 4) {
+          const randWord = wordDatabase[Math.floor(Math.random() * wordDatabase.length)].word;
+          if (!options.includes(randWord)) options.push(randWord);
+        }
+        options.sort(() => Math.random() - 0.5);
+
+        optsContainer.innerHTML = options.map((opt, idx) => `
+          <button class="quiz-opt-btn" onclick="checkChoiceAnswer(this, '${opt}', '${quizTarget.word}')">
+            <span><strong>(${String.fromCharCode(65 + idx)})</strong> ${opt}</span>
+            <span style="font-size: 13px; color: var(--text-muted);">🔊</span>
+          </button>
+        `).join('');
+
+      } else {
+        instructionEl.innerText = "仔細聽發音，選出正確的中文意思：";
+        hintContainer.style.display = "none";
+        audioContainer.style.display = "block";
+
+        questionBox.innerHTML = `<span style="font-size: 32px; color: var(--primary-dark); font-weight:800;">${quizTarget.word}</span>`;
+        playAudio(quizTarget.word);
+
+        const options = [quizTarget.meaning];
+        while (options.length < 4) {
+          const randMeaning = wordDatabase[Math.floor(Math.random() * wordDatabase.length)].meaning;
+          if (!options.includes(randMeaning)) options.push(randMeaning);
+        }
+        options.sort(() => Math.random() - 0.5);
+
+        optsContainer.innerHTML = options.map((opt, idx) => `
+          <button class="quiz-opt-btn" onclick="checkChoiceAnswer(this, '${opt}', '${quizTarget.meaning}')">
+            <span><strong>(${String.fromCharCode(65 + idx)})</strong> ${opt}</span>
+          </button>
+        `).join('');
+      }
+    }
+
+    function checkChoiceAnswer(btn, selected, correct) {
+      const isCorrect = selected === correct;
+      const mode = document.getElementById('quizModeSelect').value;
+
+      if (mode !== 'wordToMeaning') {
+        playAudio(selected);
+      } else {
+        playAudio(quizTarget.word);
+      }
+
+      document.querySelectorAll('.quiz-opt-btn').forEach(b => {
+        b.disabled = true;
+        if (b.innerText.includes(correct)) b.classList.add('correct');
+      });
+
+      const feedbackEl = document.getElementById('quizFeedback');
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+        quizScore += 10;
+        document.getElementById('quizScore').innerText = `得分: ${quizScore}`;
+        feedbackEl.innerHTML = `<span style="color: var(--accent);">✅ 答對了！</span>`;
+
+        if (mode === 'sentenceClues') {
+          const completedSentence = (quizTarget.sentence || '').replace('[____]', `<span style="color: var(--accent); font-weight:800; text-decoration: underline;"> ${quizTarget.word} </span>`);
+          document.getElementById('quizQuestionBox').innerHTML = completedSentence;
+        }
+      } else {
+        btn.classList.add('wrong');
+        feedbackEl.innerHTML = `<span style="color: var(--danger);">❌ 正確答案是：${quizTarget.word} (${quizTarget.meaning})</span>`;
+      }
+    }
+
+    // ==========================================
+    // ⚙️ 題庫管理、單筆/批次擴充與備份
+    // ==========================================
+    function addNewWordSingle() {
+      const grade = document.getElementById('newGrade').value;
+      const unit = document.getElementById('newUnit').value;
+      const word = document.getElementById('newWord').value.trim();
+      const meaning = document.getElementById('newMeaning').value.trim();
+      let sentence = document.getElementById('newSentence').value.trim();
+
+      if (!word || !meaning) {
+        alert("請至少輸入「英文單字」與「中文語意」！");
+        return;
+      }
+
+      if (!sentence) {
+        sentence = `The word is [____].`;
+      } else if (!sentence.includes('[____]')) {
+        const reg = new RegExp(word, 'gi');
+        sentence = sentence.replace(reg, '[____]');
+      }
+
+      wordDatabase.push({ grade, unit, word, meaning, sentence });
+      saveDatabase();
+
+      alert(`已成功將「${word}」加入至 ${grade} ${unit}！`);
+      document.getElementById('newWord').value = '';
+      document.getElementById('newMeaning').value = '';
+      document.getElementById('newSentence').value = '';
+    }
+
+    function addBatchWords() {
+      const grade = document.getElementById('batchGrade').value;
+      const unit = document.getElementById('batchUnit').value;
+      const rawText = document.getElementById('batchInput').value.trim();
+
+      if (!rawText) {
+        alert("請在文字框內貼上要匯入的單字資料！");
+        return;
+      }
+
+      const lines = rawText.split('\n');
+      let count = 0;
+
+      lines.forEach(line => {
+        const parts = line.split(',').map(p => p.trim());
+        if (parts.length >= 2) {
+          const word = parts[0];
+          const meaning = parts[1];
+          let sentence = parts[2] || `Remember to practice [____].`;
+          if (!sentence.includes('[____]')) {
+            const reg = new RegExp(word, 'gi');
+            sentence = sentence.replace(reg, '[____]');
+          }
+          wordDatabase.push({ grade, unit, word, meaning, sentence });
+          count++;
+        }
+      });
+
+      if (count > 0) {
+        saveDatabase();
+        alert(`成功批次匯入 ${count} 個單字至 ${grade} ${unit}！`);
+        document.getElementById('batchInput').value = '';
+      } else {
+        alert("匯入格式不符合，請確認使用逗號分隔「單字, 中文」！");
+      }
+    }
+
+    function deleteWord(idx) {
+      if (confirm(`確定要刪除單字「${wordDatabase[idx].word}」嗎？`)) {
+        wordDatabase.splice(idx, 1);
+        saveDatabase();
+      }
+    }
+
+    function renderManagementTable() {
+      const tbody = document.getElementById('managementTableBody');
+      tbody.innerHTML = wordDatabase.map((item, idx) => `
+        <tr>
+          <td><span class="badge-grade">${item.grade}</span></td>
+          <td><span class="badge-unit">${item.unit}</span></td>
+          <td><strong>${item.word}</strong></td>
+          <td>${item.meaning}</td>
+          <td style="font-size: 12px; color: var(--text-muted);">${(item.sentence || '').substring(0, 35)}...</td>
+          <td>
+            <div style="display: flex; gap: 4px;">
+              <button class="btn btn-audio" style="padding: 2px 6px; font-size: 11px;" onclick="playAudio('${item.word}')">🔊 試聽</button>
+              <button class="btn btn-danger" onclick="deleteWord(${idx})">刪除</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function exportDatabaseJSON() {
+      const dataStr = JSON.stringify(wordDatabase, null, 2);
+      navigator.clipboard.writeText(dataStr).then(() => {
+        alert("已成功將所有題庫 JSON 複製到剪貼簿！可將其妥善備份保存於筆記或文字檔中。");
+      }).catch(() => {
+        prompt("請手動複製下方文字備份：", dataStr);
+      });
+    }
+
+    function importDatabaseJSON() {
+      const input = prompt("請貼上先前備份的題庫 JSON 文字：");
+      if (!input) return;
+      try {
+        const parsed = JSON.parse(input);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          wordDatabase = parsed;
+          saveDatabase();
+          alert(`成功還原 ${wordDatabase.length} 筆題庫資料！`);
+        } else {
+          alert("資料格式錯誤，請確認貼上有效的題庫 JSON。");
+        }
+      } catch (e) {
+        alert("無法解析輸入的資料，請確認內容格式是否正確。");
+      }
+    }
+
+    function resetToDefaultData() {
+      if (confirm("確定要重設回系統預設題庫嗎？自行新增的單字將會被清除！")) {
+        wordDatabase = [...COMPLETE_DATABASE];
+        saveDatabase();
+        alert("題庫已成功恢復預設值！");
+      }
+    }
+
+    function refreshAllViews() {
+      updateUnitOptions('gradeSelect', 'unitSelect');
+      updateUnitOptions('cardGradeSelect', 'cardUnitSelect');
+      updateUnitOptions('quizGradeSelect', 'quizUnitSelect');
+      renderVocabGrid();
+      renderManagementTable();
+    }
+
+    // 啟動初始化
+    refreshAllViews();
+    startQuiz();
+  </script>
+</body>
+</html>
